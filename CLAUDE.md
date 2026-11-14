@@ -20,16 +20,24 @@ Buffer: Organisation „My organization“ `6af7b0ffb11418117920fc3f`; Kanäle T
 ## Der Nutzer
 - Schreibt Deutsch (Österreich), antworte auf Deutsch, Du-Form.
 - Kein Entwickler-Profi: Anleitungen klickbar und Schritt für Schritt (GitHub-Weboberfläche, nicht Terminal).
-- Kanalname auf allen Plattformen: **hinterdir.horror** → Nische Horror (Details zum Konzept noch offen).
-- Arbeitet noch am **Video-Konzept** → bei neuen Inhalten zuerst nach Thema/Stil fragen, falls nicht festgelegt.
+- Kanalname auf allen Plattformen: **hinterdir.horror**.
+
+## 🎬 KONZEPT (festgelegt am 14.11.2026)
+**Wahre unheimliche Fälle – echte, ungeklärte Geschichten.** Leitmotiv „hinter dir“: das Unheimliche, das unbemerkt passiert.
+- **Jedes Video = ein neuer Fall, jeden Tag frisch recherchiert.** Keine Wochen-Vorproduktion, keine Wiederholungen (Register: `content/faelle.md`).
+- Nur **echte, gut dokumentierte** Fälle (mind. 2 seriöse Quellen: Nachrichten, Behörden, Fachliteratur, Wikipedia als Einstieg). Ungeklärt oder mit offenem Rätsel.
+- Fakten exakt; was unbelegt ist, als Vermutung kennzeichnen („angeblich“, „bis heute ungeklärt“). Nichts erfinden.
+- **Respekt vor Opfern und Angehörigen:** keine blutigen Details, keine Witze, keine Verdächtigungen gegen lebende Privatpersonen, keine Adressen von Privatleuten.
+- Abwechslung: Länder, Jahrzehnte und Arten mischen (Verschwinden, rätselhafte Funde, unerklärliche Ereignisse, ungelöste Verbrechen, unheimliche Orte).
+- Szene Standard: `nebel` (düsterer Gang, rote Tür). Farben: Blutrot/Schwarz.
 
 ## Wenn du neue Videos erstellen sollst
-1. `docs/05_VIDEO_FORMAT.md` lesen.
-2. Pro Video eine Datei `content/queue/NNNN_kurzname.yaml` (fortlaufende Nummer nach der höchsten vorhandenen in `queue/` **und** `done/`).
-3. Sprechtext 60–110 Wörter, Hook im ersten Satz, Zahlen ausgeschrieben, Fakten geprüft (Websuche bei Fakten-Videos).
+1. `docs/05_VIDEO_FORMAT.md` und `docs/07_CLAUDE_ABLAUF.md` lesen.
+2. Fall recherchieren (siehe Konzept), Skript direkt in `content/freigabe/<DATUM>/` schreiben. Hat der Nutzer selbst etwas in `content/queue/` gelegt, hat das Vorrang.
+3. Sprechtext 60–110 Wörter, Hook im ersten Satz, Zahlen ausgeschrieben, Quellen im YAML unter `quellen:`.
 4. YouTube-Titel ≤ 100 Zeichen. Hashtags 3–5.
 5. Keine urheberrechtlich geschützten Figuren, Logos, Musik oder Songtexte in Videos oder Texten.
-6. Immer in Paketen von 3 (= 1 Tag) bzw. 21 (= 1 Woche).
+6. Ein Video pro Aufgabe (3 Aufgaben pro Tag), jedes ein anderer Fall.
 
 ## Wenn du neue Szenen baust
 - Datei `renderer/scenes/<name>.js`, Signatur siehe `default.js`. Testen mit `python3 tools/render.py`. Alles nur von `t` abhängig, Zufall nur mit Seed.
@@ -50,8 +58,8 @@ Buffer: Organisation „My organization“ `6af7b0ffb11418117920fc3f`; Kanäle T
 - Videos nicht ins `main`-Branch committen (nur über `tools/publish.sh` auf Branch `media`).
 
 ## Offene Punkte
-- [ ] Video-Konzept festlegen (Nische, Ton, Serien, wiederkehrende Elemente)
-- [ ] Markenfarben/Schrift in `config/settings.yaml → brand`
-- [ ] Stimme endgültig auswählen (`voice` in settings.yaml, Standard Annika)
-- [ ] Szenen passend zum Konzept bauen
-- [ ] Erste 21 Skripte schreiben
+- [x] Video-Konzept: wahre unheimliche, ungeklärte Fälle (täglich recherchiert)
+- [x] Markenfarben Blutrot/Schwarz, Szene `nebel`
+- [ ] Stimme endgültig auswählen (Standard Annika – evtl. tiefere/ruhigere Stimme testen)
+- [ ] Weitere Szenen für Abwechslung (z. B. Wald, verlassenes Haus, Straße bei Nacht)
+- [ ] Instagram wieder aktivieren, sobald verbunden

@@ -19,14 +19,18 @@ GitHub = Ablage (Skripte, Code, Videos auf Branch `media`) + Hosting (GitHub Pag
 1. **Repo holen:** `git clone --depth 1 https://github.com/Hinterdir-art/hinterdir /home/claude/hinterdir` (Schreibzugriff über die verknüpfte GitHub-App; ggf. vorher `add_repo` mit `access: push`). `CLAUDE.md` und `config/settings.yaml` lesen.
 2. **Datum:** MORGEN in Europe/Vienna (`JJJJ-MM-TT`). Videos werden heute erstellt und morgen gepostet. Wochenende (Sa/So) → `slots.weekend`, sonst `slots.weekday`.
 3. **Schon erledigt?** Existiert `content/freigabe/<MORGEN>/slot<N>.json` mit `"status": "eingeplant"` → nur kurz melden, Ende.
-4. **Skript wählen:** Die Datei mit der niedrigsten Nummer in `content/queue/` (ohne `_`-Präfix).
-   - Queue leer → Nutzer per Push informieren, **3 Skript-Ideen** passend zu `CLAUDE.md` (Horror, Konzept) vorschlagen und fragen, welche gemacht werden soll. Nach Antwort: Skript als YAML schreiben (Format `docs/05_VIDEO_FORMAT.md`) und weiter mit Schritt 5.
+4. **Fall recherchieren und Skript schreiben** (Konzept siehe `CLAUDE.md`):
+   - Liegt eine Datei in `content/queue/` (vom Nutzer), diese zuerst nehmen.
+   - Sonst: `content/faelle.md` und alle `content/freigabe/*/` lesen → **einen neuen, noch nie verwendeten** echten, ungeklärten Fall per Websuche finden. Mindestens 2 seriöse Quellen lesen, Fakten (Datum, Ort, Namen, was passiert ist, was ungeklärt ist) gegenprüfen.
+   - Abwechslung zu den letzten Tagen (anderes Land / Jahrzehnt / Art).
+   - Skript als `content/freigabe/<MORGEN>/slot<N>_<id>.yaml` schreiben (Format `docs/05_VIDEO_FORMAT.md`, `scene: nebel`), inkl. `quellen:` (Liste von URLs). Sprechtext 60–110 Wörter, Hook im ersten Satz, Zahlen ausgeschrieben, Ende mit offener Frage oder unheimlicher Pointe.
+   - Zeile in `content/faelle.md` ergänzen.
 5. **Stimme:** Speko-Connector `audio_synthesize` mit `text` = `script`, `intent: {language: "de"}`, `voice` und `constraints.allowedProviders.tts: [provider]` aus `settings.yaml → voice` (bzw. `item.voice`). Die WAV-Datei liegt danach unter `/tmp/claude-tool-results/…/mcp-Speko-blob-*.wav`.
-6. **Rendern:** `python3 tools/render.py content/queue/<datei>.yaml <wav> /tmp/out/<id>.mp4` (ca. 1–3 Min.). Danach 2 Frames mit ffmpeg herausziehen und selbst ansehen (Text lesbar? nichts abgeschnitten?).
+6. **Rendern:** `python3 tools/render.py <skript.yaml> <wav> /tmp/out/<id>.mp4` (ca. 1–3 Min.). Danach 2 Frames mit ffmpeg herausziehen und selbst ansehen (Text lesbar? nichts abgeschnitten?).
 7. **Hochladen:** `bash tools/publish.sh /tmp/out/<id>.mp4 <MORGEN> <id>` → gibt die öffentliche URL aus.
-8. **Ablegen:** Skript nach `content/freigabe/<MORGEN>/` verschieben (`git mv`) und `content/freigabe/<MORGEN>/slot<N>.json` schreiben:
+8. **Ablegen:** (Queue-Datei ggf. nach `content/freigabe/<MORGEN>/` verschieben) und `content/freigabe/<MORGEN>/slot<N>.json` schreiben:
    `{"slot": N, "id": "...", "file": "...yaml", "url": "...mp4", "status": "wartet"}` → commit + push auf `main`.
-9. **Zeigen:** Video mit `SendUserFile` (status proactive, display render). Darunter kurz: Hook, Sprechtext, YouTube-Titel, Caption, Hashtags, geplante Uhrzeiten morgen (YouTube / TikTok / Instagram).
+9. **Zeigen:** Video mit `SendUserFile` (status proactive, display render). Darunter kurz: um welchen Fall es geht (1 Satz), Hook, Sprechtext, YouTube-Titel, Caption, Hashtags, Quellen, geplante Uhrzeiten morgen (YouTube / TikTok).
 10. **Push:** `PushNotification`: „Hinterdir: Video N für morgen wartet auf deine Freigabe 🎬“
 11. **Fragen:** „Passt? Antworte mit ‚passt‘ oder sag, was geändert werden soll.“ **Nichts einplanen ohne ausdrückliches OK.**
 

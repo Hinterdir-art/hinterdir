@@ -65,16 +65,16 @@ render:
   preset: veryfast
   audio_bitrate: 160k
   tail_seconds: 0.8            # kurze Pause am Ende nach der Stimme
-  default_scene: default
+  default_scene: nebel        # düsterer Gang (renderer/scenes/nebel.js)
 
 # Markenauftritt (Platzhalter – kommt später, wenn das Video-Konzept steht)
 brand:
   name: Hinterdir
-  primary_color: "#7C5CFF"
-  accent_color: "#FFD166"
-  background_color: "#0B0B12"
+  primary_color: "#B3001B"     # Blutrot
+  accent_color: "#E0242E"      # Hervorhebung in Untertiteln
+  background_color: "#050507"
   font: "Inter, Arial, sans-serif"
-  default_hashtags: ["#hinterdir"]
+  default_hashtags: ["#hinterdir", "#horror", "#truecrime"]
 
 # Wo die fertigen MP4s öffentlich liegen (GitHub Pages).
 # Leer lassen = automatisch https://<user>.github.io/<repo>

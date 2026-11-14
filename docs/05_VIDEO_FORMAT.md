@@ -1,6 +1,6 @@
 # 5 · Videos schreiben
 
-> Das inhaltliche Konzept (Thema, Ton, Serien, Szenen-Stil) ist **noch offen** – das erarbeiten wir als Nächstes. Diese Datei beschreibt nur das technische Format.
+> **Konzept:** wahre unheimliche, ungeklärte Fälle – jeden Tag neu recherchiert (Details in `CLAUDE.md`). Diese Datei beschreibt das Format eines Skripts.
 
 ## Ein Video = eine YAML-Datei in `content/queue/`
 Dateiname bestimmt die Reihenfolge: `0001_…`, `0002_…`. Pro Tag nimmt die Pipeline die nächsten **3**. Für eine Woche brauchst du also **21 Dateien**.
@@ -8,7 +8,7 @@ Dateien, die mit `_` beginnen, werden ignoriert (gut für Vorlagen/Entwürfe).
 
 ```yaml
 id: kurzer-name-ohne-leerzeichen
-scene: default                 # renderer/scenes/default.js
+scene: nebel                   # renderer/scenes/nebel.js (düsterer Gang)
 script: |                      # Sprechtext – 60–110 Wörter ≈ 25–45 s
   Erster Satz ist der Hook. Muss in 2 Sekunden fesseln.
   …
@@ -19,6 +19,9 @@ youtube:   { title: "Titel bis 100 Zeichen #shorts" }
 tiktok:    { caption: "Text für TikTok" }
 instagram: { caption: "Text für Instagram" }
 hashtags: ["#tag1", "#tag2"]
+quellen:                       # Pflicht bei wahren Fällen, mind. 2
+  - https://...
+  - https://...
 # voice: { provider: cartesia, voice: b7187e84-… }   # optional andere Stimme nur für dieses Video
 ```
 
