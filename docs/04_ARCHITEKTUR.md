@@ -1,6 +1,6 @@
 # 4 · Architektur
 
-## Täglicher Ablauf (`.github/workflows/daily.yml`, 04:23 UTC)
+## Täglicher Ablauf (`.github/workflows/daily.yml`, 07:23 UTC → Videos für morgen)
 
 ```mermaid
 flowchart TD
@@ -10,11 +10,12 @@ flowchart TD
   R --> F[ffmpeg → MP4 1080×1920<br/>H.264 + AAC]
   F --> M[scripts/publish-media.sh<br/>Branch 'media', letzte 7 Tage]
   M --> G[GitHub Pages<br/>https://USER.github.io/hinterdir/videos/DATUM/ID.mp4]
-  G --> B[src/schedule.mjs → Buffer API createPost]
+  G --> FG[content/freigabe/DATUM/manifest.json]
+  FG --> C[Claude-Task 11:37/12:37/13:37<br/>Push + Video zur Freigabe]
+  C -->|„passt“| B[Buffer-Connector create_post<br/>für morgen]
   B --> YT[YouTube Shorts<br/>automatic]
   B --> TT[TikTok<br/>notification → Push]
   B --> IG[Instagram Reel<br/>notification → Push]
-  B --> D[Skript → content/done/DATUM/<br/>Log → logs/DATUM.json]
 ```
 
 ## Dateien
@@ -28,7 +29,7 @@ flowchart TD
 | `renderer/scenes/*.js` | eine Datei pro Szenen-Typ |
 | `src/lib/buffer.mjs` | Buffer GraphQL (`createPost`, Kanäle) |
 | `src/produce.mjs` | Schritt 1: Videos bauen → `out/manifest.json` |
-| `src/schedule.mjs` | Schritt 2: in Buffer einplanen, Queue weiterschieben |
+| `src/schedule.mjs` | Alternative ohne Freigabe (direkt per API einplanen) – aktuell **nicht** in Benutzung |
 | `src/tools.mjs` | `channels`, `voice-test`, `plan` |
 
 ## Designentscheidungen

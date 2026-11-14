@@ -63,7 +63,7 @@ Tab **Actions** → links **„Werkzeuge (Test-Render, Kanal-IDs, Stimmen, Plan)
 4. `plan` → zeigt die Posting-Zeiten der nächsten 7 Tage.
 
 ## G) Erster echter Lauf
-**Actions → „Täglich – 3 Videos …“ → Run workflow** → Häkchen bei **„Nur testen“** setzen → Start.
+**Actions → „Täglich – Videos für morgen …“ → Run workflow** → Start. Die Videos landen in `content/freigabe/<Datum>/` und werden dir von Claude zur Freigabe gezeigt.
 Wenn alles grün ist: nochmal ohne Häkchen starten. Danach läuft es **jeden Tag von selbst**.
 
 > GitHub pausiert geplante Abläufe nach 60 Tagen ohne Aktivität im Repo. Die Pipeline committet jeden Tag selbst (Queue → Done, Log), dadurch bleibt sie aktiv – solange Skripte in der Queue liegen.

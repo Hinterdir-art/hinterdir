@@ -1,7 +1,7 @@
 # Hinterdir – automatische Shorts-Pipeline
 
 **3 Videos pro Tag, vollautomatisch produziert.**
-Speko spricht den Text, Three.js rendert die 3D-Animation und Buffer plant alles ein:
+Speko spricht den Text, Three.js rendert die 3D-Animation. **Jedes Video wird erst nach deiner Freigabe** („passt“) über Buffer eingeplant:
 
 | Plattform | Wie veröffentlicht | Was du tun musst |
 |---|---|---|
@@ -18,7 +18,12 @@ content/queue/*.yaml  ──►  Speko (Stimme, z. B. „Annika“)
                        ──►  GitHub Pages (öffentliche Video-URL)
                        ──►  Buffer API  →  YouTube (auto) · TikTok/Instagram (Push)
 ```
-Läuft jeden Morgen um ca. 05:30/06:30 (Wien) als GitHub Action.
+### Tagesablauf (Europe/Vienna)
+| Zeit | Was |
+|---|---|
+| ca. 08:30 | GitHub Action produziert die 3 Videos für **morgen** (`daily.yml`) |
+| 11:37 / 12:37 / 13:37 | Claude schickt Video 1 / 2 / 3 zur Freigabe → „passt“ = Einplanen für morgen |
+| 22:13 | Claude-Tagesreport (Performance, Tipps) |
 
 ## Einrichtung – in dieser Reihenfolge
 
