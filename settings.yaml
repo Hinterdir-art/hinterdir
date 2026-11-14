@@ -1,0 +1,82 @@
+# ─────────────────────────────────────────────────────────────
+#  HINTERDIR – zentrale Einstellungen
+#  Alles, was du ändern willst, änderst du HIER (nicht im Code).
+# ─────────────────────────────────────────────────────────────
+
+timezone: Europe/Vienna
+
+# Harte Grenzen: Kein Post (auch keine Push-Benachrichtigung) außerhalb
+# dieses Fensters. Der Code bricht ab, wenn ein Slot außerhalb liegt.
+posting_window:
+  earliest: "08:00"
+  latest: "23:00"        # nach 0 Uhr wird NIE gepostet
+
+videos_per_day: 3
+
+# Uhrzeiten pro Video-Slot und Plattform (lokale Zeit, Europe/Vienna).
+# youtube  = vollautomatisch (Buffer postet selbst)
+# tiktok / instagram = Buffer schickt dir eine Push-Benachrichtigung,
+#                      du postest dann selbst in der App.
+# Begründung der Zeiten: siehe docs/03_POSTING_ZEITEN.md
+slots:
+  weekday:               # Montag–Freitag
+    - { youtube: "12:00", tiktok: "12:30", instagram: "12:35" }
+    - { youtube: "17:00", tiktok: "18:30", instagram: "18:35" }
+    - { youtube: "20:00", tiktok: "21:00", instagram: "21:05" }
+  weekend:               # Samstag + Sonntag
+    - { youtube: "11:00", tiktok: "11:30", instagram: "11:35" }
+    - { youtube: "16:00", tiktok: "17:30", instagram: "17:35" }
+    - { youtube: "19:30", tiktok: "20:30", instagram: "20:35" }
+
+# Welche Plattform wie veröffentlicht wird
+platforms:
+  youtube:
+    enabled: true
+    scheduling: automatic      # Buffer lädt selbst hoch
+    category_id: "24"          # 24 = Entertainment, 27 = Education, 28 = Science & Tech
+    made_for_kids: false
+    privacy: public
+  tiktok:
+    enabled: true
+    scheduling: notification   # Push aufs Handy → du postest selbst
+  instagram:
+    enabled: true
+    scheduling: notification
+    share_to_feed: true
+
+# Kennzeichnung von KI-Inhalten (KI-Stimme). Empfehlung: true lassen.
+ai_disclosure: true
+
+# Stimme (Speko). Getestete deutsche Stimmen – siehe docs/02_VERBINDUNGEN.md:
+#   inworld:  Annika (w), Reinhard (m)           – günstig, klar
+#   cartesia: Sebastian (m) b7187e84-fe22-4344-ba4a-bc013fcb533e, Alina (w) 38aabb6a-f52b-4fb0-a3d1-988518f4dc06
+#   elevenlabs: Roman (m) 1YST1S3BrkT7E0wcLKQD, Rhea (w) le3O97c6UClnRdpxkDTb – teurer, sehr natürlich
+voice:
+  language: de
+  provider: inworld
+  voice: Annika
+
+# Video-Ausgabe (Exakt 1080×1920 – YouTube via Buffer lehnt sonst ab)
+render:
+  width: 1080
+  height: 1920
+  fps: 30
+  crf: 20
+  preset: veryfast
+  audio_bitrate: 160k
+  tail_seconds: 0.8            # kurze Pause am Ende nach der Stimme
+  default_scene: default
+
+# Markenauftritt (Platzhalter – kommt später, wenn das Video-Konzept steht)
+brand:
+  name: Hinterdir
+  primary_color: "#7C5CFF"
+  accent_color: "#FFD166"
+  background_color: "#0B0B12"
+  font: "Inter, Arial, sans-serif"
+  default_hashtags: ["#hinterdir"]
+
+# Wo die fertigen MP4s öffentlich liegen (GitHub Pages).
+# Leer lassen = automatisch https://<user>.github.io/<repo>
+media_base_url: ""
+media_keep_days: 7             # ältere Videos werden vom Media-Branch entfernt

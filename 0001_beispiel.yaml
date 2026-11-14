@@ -1,0 +1,32 @@
+# Beispiel-Video. Dateien in content/queue/ werden in Namensreihenfolge
+# abgearbeitet (0001, 0002, …). Pro Tag nimmt die Pipeline die nächsten 3.
+# Nach dem Einplanen wandert die Datei nach content/done/.
+
+id: beispiel-001
+scene: default                     # Datei renderer/scenes/<scene>.js
+
+# Gesprochener Text (Speko). Max. ~2000 Zeichen; ideal 20–45 Sekunden.
+script: |
+  Hinter dir passiert gerade etwas, das du nie bemerkst.
+  Jede Sekunde dreht sich die Erde um fast fünfhundert Meter weiter.
+  Und du merkst davon: nichts.
+
+# Großer Text oben im Bild (optional, wenige Wörter)
+hook: "Hinter dir…"
+
+# Untertitel werden automatisch aus der Stimme erzeugt (Wort für Wort).
+captions: true
+
+# Szenen-Parameter (frei, je nach Szene)
+scene_params:
+  shape: torusKnot
+  speed: 1.0
+
+# Texte für die Plattformen
+youtube:
+  title: "Das passiert hinter dir 👀 #shorts"
+tiktok:
+  caption: "Das passiert hinter dir 👀"
+instagram:
+  caption: "Das passiert hinter dir 👀"
+hashtags: ["#fakten", "#wissen", "#shorts"]
