@@ -6,11 +6,22 @@ Lies das zuerst, bevor du an diesem Repo arbeitest.
 Automatische Kurzvideo-Pipeline: **3 Shorts pro Tag**. Speko (Stimme) → Three.js (3D, Headless-Chrome) → ffmpeg → GitHub Pages (Video-URL) → Buffer.
 - YouTube Shorts: Buffer postet **automatisch** (`schedulingType: automatic`).
 - TikTok + Instagram Reels: Buffer schickt eine **Push-Benachrichtigung**, der Nutzer postet selbst (`schedulingType: notification`).
+
+## ⚠️ FREIGABE-PFLICHT (wichtigste Regel)
+Kein Video wird ohne ausdrückliches **„passt“** des Nutzers in Buffer eingeplant.
+1. GitHub Action `daily.yml` (ca. 08:23/09:23 Wien) produziert die 3 Videos für **morgen**, stellt sie auf GitHub Pages und legt Skripte + `manifest.json` in `content/freigabe/<DATUM>/`.
+2. Claude-Scheduled-Tasks „Hinterdir – Video 1/2/3 Freigabe“ (täglich 11:37 / 12:37 / 13:37 Wien) zeigen je ein Video (Slot 0/1/2) mit Push und fragen nach Freigabe.
+3. „passt“ → Claude plant dieses Video per **Buffer-Connector** (`create_post`, `mode: customScheduled`) für **morgen** ein: YouTube `automatic`, TikTok + Instagram `notification`. Zeiten aus `config/settings.yaml → slots`.
+4. „ändern“ / „passt nicht“ → besprechen, Skript anpassen, neu rendern (Actions → daily.yml → Run workflow mit Datum), erneut zur Freigabe.
+5. „Hinterdir – Tagesreport“ (täglich 22:13 Wien) berichtet Performance über Buffer-Metriken, ändert nichts.
+Video-URLs: `https://hinterdir-art.github.io/hinterdir/<mediaPath aus manifest>`. Repo: `Hinterdir-art/hinterdir` (öffentlich).
+Buffer: Organisation „My organization“ `6af7b0ffb11418117920fc3f`; Kanäle TikTok `6af7b2f162b70b94b025112b`, YouTube `6af7b23262b70b94b0250204`, Instagram: noch nicht verbunden.
 - Zeitzone **Europe/Vienna**. **Niemals** Posts/Pushes nach **23:00** oder vor 08:00 (`posting_window`). Der Nutzer schläft nach Mitternacht – diese Grenze nie aufweichen.
 
 ## Der Nutzer
 - Schreibt Deutsch (Österreich), antworte auf Deutsch, Du-Form.
 - Kein Entwickler-Profi: Anleitungen klickbar und Schritt für Schritt (GitHub-Weboberfläche, nicht Terminal).
+- Kanalname auf allen Plattformen: **hinterdir.horror** → Nische Horror (Details zum Konzept noch offen).
 - Arbeitet noch am **Video-Konzept** → bei neuen Inhalten zuerst nach Thema/Stil fragen, falls nicht festgelegt.
 
 ## Wenn du neue Videos erstellen sollst
@@ -35,7 +46,8 @@ Automatische Kurzvideo-Pipeline: **3 Shorts pro Tag**. Speko (Stimme) → Three.
 ## Nicht tun
 - Keine API-Keys in Dateien schreiben.
 - `posting_window` nicht über 23:00 hinaus erweitern, auch nicht „nur einmal“.
-- Nicht mehr als den aktuellen Tag in Buffer einplanen (Free-Plan-Limit).
+- Nicht mehr als einen Tag im Voraus in Buffer einplanen (Free-Plan-Limit 10 Posts/Kanal).
+- Nie ohne „passt“ einplanen.
 - Videos nicht ins `main`-Branch committen (nur Branch `media`, wird überschrieben).
 
 ## Offene Punkte

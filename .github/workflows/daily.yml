@@ -1,18 +1,18 @@
-name: Täglich – 3 Videos produzieren & in Buffer einplanen
+name: Täglich – Videos für morgen produzieren (zur Freigabe)
+
+# Ablauf mit Freigabe:
+# 1) Diese Action produziert am Morgen die 3 Videos für MORGEN und stellt sie online.
+# 2) Claude zeigt dir Video 1/2/3 um 11:37 / 12:37 / 13:37 zur Freigabe.
+# 3) Erst wenn du "passt" sagst, plant Claude es in Buffer ein (Posting am nächsten Tag).
 
 on:
   schedule:
-    # GitHub-Cron läuft in UTC. 04:23 UTC = 05:23 (Winter) / 06:23 (Sommer) in Wien.
-    # Krumme Minute, weil Läufe zur vollen Stunde oft verspätet starten.
-    - cron: "23 4 * * *"
+    # 07:23 UTC = 08:23 (Winter) / 09:23 (Sommer) in Wien
+    - cron: "23 7 * * *"
   workflow_dispatch:
     inputs:
-      dry:
-        description: "Nur testen (nichts in Buffer einplanen)"
-        type: boolean
-        default: false
-      count:
-        description: "Anzahl Videos (leer = laut settings.yaml)"
+      datum:
+        description: "Für welchen Tag? (JJJJ-MM-TT, leer = morgen)"
         required: false
 
 permissions:
@@ -43,11 +43,17 @@ jobs:
       - name: ffmpeg installieren
         run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
 
+      - name: Datum bestimmen
+        run: |
+          D="${{ inputs.datum }}"
+          if [ -z "$D" ]; then D=$(TZ=Europe/Vienna date -d tomorrow +%F); fi
+          echo "DATUM=$D" >> "$GITHUB_ENV"
+          echo "Produziere Videos für $D"
+
       - name: Videos produzieren (Speko + Three.js)
         env:
           SPEKO_API_KEY: ${{ secrets.SPEKO_API_KEY }}
-        run: |
-          if [ -n "${{ inputs.count }}" ]; then node src/produce.mjs --count "${{ inputs.count }}"; else node src/produce.mjs; fi
+        run: node src/produce.mjs --date "$DATUM"
 
       - name: Videos auf Media-Branch legen
         env:
@@ -61,22 +67,17 @@ jobs:
       - name: Auf GitHub Pages veröffentlichen
         uses: actions/deploy-pages@v4
 
-      - name: In Buffer einplanen
-        env:
-          BUFFER_API_KEY: ${{ secrets.BUFFER_API_KEY }}
-          BUFFER_CHANNEL_YOUTUBE: ${{ vars.BUFFER_CHANNEL_YOUTUBE }}
-          BUFFER_CHANNEL_TIKTOK: ${{ vars.BUFFER_CHANNEL_TIKTOK }}
-          BUFFER_CHANNEL_INSTAGRAM: ${{ vars.BUFFER_CHANNEL_INSTAGRAM }}
+      - name: Zur Freigabe ablegen (content/freigabe/DATUM)
         run: |
-          if [ "${{ inputs.dry }}" = "true" ]; then node src/schedule.mjs --dry; else node src/schedule.mjs; fi
-
-      - name: Warteschlange & Log committen
-        if: ${{ inputs.dry != true }}
-        run: |
+          mkdir -p "content/freigabe/$DATUM"
+          cp out/manifest.json "content/freigabe/$DATUM/manifest.json"
+          for f in $(jq -r '.items[].queueFile' out/manifest.json); do
+            git mv "content/queue/$f" "content/freigabe/$DATUM/$f"
+          done
           git config user.name "hinterdir-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add content logs || true
-          git diff --cached --quiet || (git commit -m "Eingeplant: $(date -u +%F)" && git push)
+          git add content
+          git diff --cached --quiet || (git commit -m "Zur Freigabe: $DATUM" && git push)
 
       - name: Videos als Download anhängen
         if: always()
