@@ -1,0 +1,22 @@
+{
+  "name": "hinterdir",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Automatische Shorts-Pipeline: Speechify (Stimme) + Three.js (3D) + Buffer (Upload)",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "produce": "node src/produce.mjs",
+    "test-render": "node src/produce.mjs --test --count 1",
+    "schedule": "node src/schedule.mjs",
+    "schedule:dry": "node src/schedule.mjs --dry",
+    "channels": "node src/tools.mjs channels",
+    "voices": "node src/tools.mjs voices",
+    "plan": "node src/tools.mjs plan"
+  },
+  "dependencies": {
+    "puppeteer": "^24.0.0",
+    "three": "^0.170.0",
+    "yaml": "^2.6.0"
+  }
+}
