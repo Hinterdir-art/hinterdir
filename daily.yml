@@ -1,0 +1,88 @@
+name: Täglich – 3 Videos produzieren & in Buffer einplanen
+
+on:
+  schedule:
+    # GitHub-Cron läuft in UTC. 04:23 UTC = 05:23 (Winter) / 06:23 (Sommer) in Wien.
+    # Krumme Minute, weil Läufe zur vollen Stunde oft verspätet starten.
+    - cron: "23 4 * * *"
+  workflow_dispatch:
+    inputs:
+      dry:
+        description: "Nur testen (nichts in Buffer einplanen)"
+        type: boolean
+        default: false
+      count:
+        description: "Anzahl Videos (leer = laut settings.yaml)"
+        required: false
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: daily-pipeline
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    environment:
+      name: github-pages
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Abhängigkeiten installieren
+        run: npm install --no-audit --no-fund
+
+      - name: ffmpeg installieren
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+
+      - name: Videos produzieren (Speko + Three.js)
+        env:
+          SPEKO_API_KEY: ${{ secrets.SPEKO_API_KEY }}
+        run: |
+          if [ -n "${{ inputs.count }}" ]; then node src/produce.mjs --count "${{ inputs.count }}"; else node src/produce.mjs; fi
+
+      - name: Videos auf Media-Branch legen
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bash scripts/publish-media.sh
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - name: Auf GitHub Pages veröffentlichen
+        uses: actions/deploy-pages@v4
+
+      - name: In Buffer einplanen
+        env:
+          BUFFER_API_KEY: ${{ secrets.BUFFER_API_KEY }}
+          BUFFER_CHANNEL_YOUTUBE: ${{ vars.BUFFER_CHANNEL_YOUTUBE }}
+          BUFFER_CHANNEL_TIKTOK: ${{ vars.BUFFER_CHANNEL_TIKTOK }}
+          BUFFER_CHANNEL_INSTAGRAM: ${{ vars.BUFFER_CHANNEL_INSTAGRAM }}
+        run: |
+          if [ "${{ inputs.dry }}" = "true" ]; then node src/schedule.mjs --dry; else node src/schedule.mjs; fi
+
+      - name: Warteschlange & Log committen
+        if: ${{ inputs.dry != true }}
+        run: |
+          git config user.name "hinterdir-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add content logs || true
+          git diff --cached --quiet || (git commit -m "Eingeplant: $(date -u +%F)" && git push)
+
+      - name: Videos als Download anhängen
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: videos
+          path: out/media/videos
+          retention-days: 7
+          if-no-files-found: ignore
