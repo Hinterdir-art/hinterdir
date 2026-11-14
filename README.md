@@ -12,17 +12,15 @@ Speko spricht den Text, Three.js rendert die 3D-Animation. **Jedes Video wird er
 Kein Post und keine Benachrichtigung nach **23:00** (harte Grenze in `config/settings.yaml`).
 
 ```
-content/queue/*.yaml  ──►  Speko (Stimme, z. B. „Annika“)
-                       ──►  Three.js in Headless-Chrome (1080×1920, 30 fps)
-                       ──►  ffmpeg → MP4
-                       ──►  GitHub Pages (öffentliche Video-URL)
-                       ──►  Buffer API  →  YouTube (auto) · TikTok/Instagram (Push)
+content/queue/*.yaml ──► Claude: Speko-Connector (Stimme)
+                     ──► Claude: Three.js in Chrome + ffmpeg (tools/render.py)
+                     ──► GitHub Branch "media" (tools/publish.sh) → GitHub Pages
+                     ──► deine Freigabe ──► Buffer: YouTube (auto) · TikTok/Instagram (Push)
 ```
 ### Tagesablauf (Europe/Vienna)
 | Zeit | Was |
 |---|---|
-| ca. 08:30 | GitHub Action produziert die 3 Videos für **morgen** (`daily.yml`) |
-| 11:37 / 12:37 / 13:37 | Claude schickt Video 1 / 2 / 3 zur Freigabe → „passt“ = Einplanen für morgen |
+| 11:37 / 12:37 / 13:37 | Claude erstellt Video 1 / 2 / 3 für **morgen** (Speko + Three.js), lädt es nach GitHub und schickt es dir zur Freigabe → „passt“ = Einplanen in Buffer |
 | 22:13 | Claude-Tagesreport (Performance, Tipps) |
 
 ## Einrichtung – in dieser Reihenfolge
@@ -44,7 +42,9 @@ Weitere Doku: [Architektur](docs/04_ARCHITEKTUR.md) · [Fehlerbehebung](docs/06_
 | `content/done/` | Bereits eingeplante Skripte (nach Datum) |
 | `renderer/` | Three.js-Szenen (`renderer/scenes/*.js`) |
 | `src/` | Pipeline-Code (Speko, Render, Buffer) |
-| `.github/workflows/` | Automatisierung (täglich + Werkzeuge) |
+| `tools/` | `render.py` (Video bauen), `publish.sh` (Video hochladen) |
+| `vendor/three/` | Three.js-Bibliothek |
+| `docs/07_CLAUDE_ABLAUF.md` | Täglicher Ablauf für Claude |
 | `logs/` | Was wann in Buffer eingeplant wurde |
 
 ## Status

@@ -1,22 +1,21 @@
 # 4 · Architektur
 
-## Täglicher Ablauf (`.github/workflows/daily.yml`, 07:23 UTC → Videos für morgen)
+## Täglicher Ablauf (alles in Claudes Umgebung, ausgelöst von geplanten Claude-Aufgaben)
 
 ```mermaid
 flowchart TD
-  Q[content/queue/*.yaml<br/>nächste 3 Skripte] --> P[src/produce.mjs]
-  P --> S[Speko → Inworld „Annika“<br/>WAV → MP3, Wort-Timing geschätzt]
-  S --> R[Three.js-Szene in Headless-Chrome<br/>Frame für Frame, 30 fps]
-  R --> F[ffmpeg → MP4 1080×1920<br/>H.264 + AAC]
-  F --> M[scripts/publish-media.sh<br/>Branch 'media', letzte 7 Tage]
-  M --> G[GitHub Pages<br/>https://USER.github.io/hinterdir/videos/DATUM/ID.mp4]
-  G --> FG[content/freigabe/DATUM/manifest.json]
-  FG --> C[Claude-Task 11:37/12:37/13:37<br/>Push + Video zur Freigabe]
-  C -->|„passt“| B[Buffer-Connector create_post<br/>für morgen]
-  B --> YT[YouTube Shorts<br/>automatic]
-  B --> TT[TikTok<br/>notification → Push]
-  B --> IG[Instagram Reel<br/>notification → Push]
+  Q[content/queue/*.yaml] --> S[Speko-Connector<br/>Stimme als WAV]
+  S --> R[tools/render.py<br/>Three.js in Chrome, 30 fps]
+  R --> F[ffmpeg → MP4 1080×1920]
+  F --> M[tools/publish.sh → Branch media]
+  M --> G[GitHub Pages URL]
+  G --> C[Push + Video an Nutzer]
+  C -->|„passt“| B[Buffer-Connector create_post für morgen]
+  B --> YT[YouTube automatic]
+  B --> TT[TikTok notification]
+  B --> IG[Instagram notification]
 ```
+Details: `docs/07_CLAUDE_ABLAUF.md`. GitHub Actions (`tools.yml`, `src/`) sind nur noch ein optionaler Notfall-Weg.
 
 ## Dateien
 
