@@ -14,7 +14,7 @@ Kein Video wird ohne ausdrückliches **„passt“** des Nutzers in Buffer einge
 Genauer Ablauf: **`docs/07_CLAUDE_ABLAUF.md`** (Playbook – Änderungen am Ablauf dort machen).
 - Geplante Claude-Aufgaben: „Hinterdir – Video 1/2/3 Freigabe“ täglich 11:37 / 12:37 / 13:37 (erstellen je 1 Video für **morgen**, zeigen es, planen nach „passt“ ein) und „Hinterdir – Tagesreport“ 22:13.
 Video-URLs: `https://hinterdir-art.github.io/hinterdir/videos/<DATUM>/<id>.mp4`. Repo: `Hinterdir-art/hinterdir` (öffentlich).
-Buffer: Organisation „My organization“ `6af7b0ffb11418117920fc3f`; Kanäle TikTok `6af7b2f162b70b94b025112b`, YouTube `6af7b23262b70b94b0250204`, Instagram: noch nicht verbunden.
+Buffer: Organisation „My organization“ `6af7b0ffb11418117920fc3f`; Kanäle TikTok `6af7b2f162b70b94b025112b`, YouTube `6af7b23262b70b94b0250204`. **Fokus: nur YouTube Shorts + TikTok.** Instagram ist AUS (`settings.yaml → platforms.instagram.enabled: false`), bis der Nutzer Bescheid gibt.
 - Zeitzone **Europe/Vienna**. **Niemals** Posts/Pushes nach **23:00** oder vor 08:00 (`posting_window`). Der Nutzer schläft nach Mitternacht – diese Grenze nie aufweichen.
 
 ## Der Nutzer

@@ -40,7 +40,7 @@ platforms:
     enabled: true
     scheduling: notification   # Push aufs Handy → du postest selbst
   instagram:
-    enabled: true
+    enabled: false             # vorerst AUS – Nutzer meldet sich, wenn Instagram in Buffer verbunden ist
     scheduling: notification
     share_to_feed: true
 

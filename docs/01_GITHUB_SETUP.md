@@ -11,7 +11,7 @@ Repo: **github.com/Hinterdir-art/hinterdir** (Public).
 | Dateien mit Ordnerstruktur hochgeladen | ✅ |
 | GitHub mit Claude verknüpft (claude.ai/code → Connect GitHub) | ✅ |
 | Claude-GitHub-App auf `hinterdir` installiert (Schreibzugriff) | ✅ |
-| GitHub Pages aus Branch `media` | ⬜ siehe unten |
+| GitHub Pages aus Branch `media` | ✅ (läuft seit 14.11.2026) |
 
 ## GitHub Pages einschalten (einmalig)
 1. github.com/Hinterdir-art/hinterdir → **Settings** → links **Pages**.

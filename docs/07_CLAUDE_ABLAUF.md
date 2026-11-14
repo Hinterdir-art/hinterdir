@@ -35,7 +35,7 @@ GitHub = Ablage (Skripte, Code, Videos auf Branch `media`) + Hosting (GitHub Pag
 2. Pro Plattform `create_post`, `mode: customScheduled`, `dueAt` = Uhrzeit aus `settings.yaml` am Datum MORGEN mit korrektem Wiener UTC-Offset, `assets: [{video: {url}}]`, `text` = Caption + Hashtags (`item.hashtags` + `brand.default_hashtags`).
    - **YouTube:** `schedulingType: automatic`, `metadata.youtube {title ≤100, categoryId, madeForKids: false, privacy: public, isAiGenerated}`
    - **TikTok:** `schedulingType: notification`, `metadata.tiktok {isAiGenerated}`
-   - **Instagram** (nur wenn verbunden): `schedulingType: notification`, `metadata.instagram {type: reel, shouldShareToFeed: true, isAiGenerated}`
+   - **Instagram** (nur wenn `platforms.instagram.enabled: true` – aktuell AUS): `schedulingType: notification`, `metadata.instagram {type: reel, shouldShareToFeed: true, isAiGenerated}`
 3. Nie vor 08:00 oder nach 23:00 Wiener Zeit.
 4. `slot<N>.json` → `"status": "eingeplant"` + Buffer-Post-IDs, commit + push. Kurz bestätigen.
 
