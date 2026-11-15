@@ -1,0 +1,27 @@
+id: flannan-isles
+scene: nebel
+script: |
+  Drei Männer auf einer Insel. Und plötzlich ist das Licht aus.
+  Flannan-Inseln, Schottland, Dezember neunzehnhundert.
+  Am fünfzehnten Dezember bemerkt ein vorbeifahrendes Dampfschiff: Der Leuchtturm brennt nicht.
+  Erst am zweiten Weihnachtstag legt das Versorgungsschiff an.
+  Tor und Tür sind geschlossen. Die Lampen geputzt und nachgefüllt, die Küche aufgeräumt.
+  Die Uhr hat niemand mehr aufgezogen.
+  Zwei Ölmäntel fehlen. Einer hängt noch am Haken.
+  Die Behörde vermutet: eine riesige Welle hat sie ins Meer gerissen.
+  Gefunden wurde nie jemand.
+  Und bis heute weiß niemand, warum einer von ihnen ohne Mantel hinaus ins Unwetter lief.
+hook: "Das Licht ist aus"
+captions: true
+scene_params: {}
+youtube:
+  title: "Drei Leuchtturmwärter verschwinden spurlos – Schottland 1900 #shorts"
+tiktok:
+  caption: "Flannan-Inseln, 1900: Der Leuchtturm ist dunkel, die Wärter sind weg. Ein Ölmantel hängt noch am Haken. Bis heute ungeklärt."
+instagram:
+  caption: "Flannan-Inseln, 1900: Der Leuchtturm ist dunkel, die Wärter sind weg. Ein Ölmantel hängt noch am Haken. Bis heute ungeklärt."
+hashtags: ["#flannanisles", "#leuchtturm", "#ungeklärt", "#shorts"]
+quellen:
+  - https://nrscotland.gov.uk/learning-and-events/for-the-safety-of-all-scotlands-lighthouses/the-flannan-islands-lighthouse-a-disappearance/
+  - https://en.wikipedia.org/wiki/Flannan_Isles_Lighthouse
+  - https://www.history.co.uk/articles/the-flannan-isle-mystery-the-three-lighthouse-keepers-who-vanished

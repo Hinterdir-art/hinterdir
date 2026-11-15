@@ -1,0 +1,25 @@
+id: somerton-mann
+scene: nebel
+script: |
+  Ein toter Mann am Strand. Jemand hat jedes Etikett aus seiner Kleidung geschnitten.
+  Somerton Beach, Australien, erster Dezember neunzehnhundertachtundvierzig.
+  Keine Papiere. Keine Verletzung. Die Ärzte vermuten Gift. Gefunden wird keins.
+  In einer winzigen, versteckten Hosentasche: ein Papierfetzen. Darauf zwei Worte. Tamám Shud. Es ist zu Ende.
+  Monate später taucht das Buch auf, aus dem der Fetzen gerissen wurde. Es lag im Auto eines Fremden.
+  Auf der Rückseite: eine Telefonnummer. Und Zeilen aus wirren Buchstaben. Ein Code, den bis heute niemand geknackt hat.
+  Erst vierundsiebzig Jahre später gibt ihm DNA vermutlich einen Namen.
+  Aber wie er starb, und für wen dieser Code bestimmt war, weiß niemand.
+hook: "Es ist zu Ende"
+captions: true
+scene_params: {}
+youtube:
+  title: "Tot am Strand, alle Etiketten entfernt – und ein Code, den niemand knackt #shorts"
+tiktok:
+  caption: "Somerton Beach, 1948: ein Toter ohne Namen, ein Zettel mit „Tamám Shud“ und ein Code, der bis heute ungelöst ist."
+instagram:
+  caption: "Somerton Beach, 1948: ein Toter ohne Namen, ein Zettel mit „Tamám Shud“ und ein Code, der bis heute ungelöst ist."
+hashtags: ["#somertonman", "#ungeklärt", "#mystery", "#shorts"]
+quellen:
+  - https://www.archives.sa.gov.au/finding-information/discover-our-collection/stories-from-the-archive/but-what-poison-mystery-of-the-somerton-man
+  - https://www.indailysa.com.au/news/archive/2022/07/27/somerton-mans-identity-revealed-professor-says
+  - https://www.mentalfloss.com/history/mystery/mysterious-death-somerton-man

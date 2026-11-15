@@ -60,6 +60,6 @@ Buffer: Organisation „My organization“ `6af7b0ffb11418117920fc3f`; Kanäle T
 ## Offene Punkte
 - [x] Video-Konzept: wahre unheimliche, ungeklärte Fälle (täglich recherchiert)
 - [x] Markenfarben Blutrot/Schwarz, Szene `nebel`
-- [ ] Stimme endgültig auswählen (Standard Annika – evtl. tiefere/ruhigere Stimme testen)
+- [x] Stimme: **Annika** (inworld) – vom Nutzer am 15.11.2026 gewählt
 - [ ] Weitere Szenen für Abwechslung (z. B. Wald, verlassenes Haus, Straße bei Nacht)
 - [ ] Instagram wieder aktivieren, sobald verbunden

@@ -1,0 +1,24 @@
+id: hinterkaifeck
+scene: nebel
+script: |
+  Ein Bauer findet Fußspuren im Schnee. Sie führen aus dem Wald zu seinem Hof. Aber keine einzige führt zurück.
+  Oberbayern, Frühjahr neunzehnhundertzweiundzwanzig. Der Hof heißt Hinterkaifeck.
+  Nachts hört die Familie Schritte auf dem Dachboden. Ein Hausschlüssel ist verschwunden. Der Bauer durchsucht alles. Er findet niemanden.
+  Am einunddreißigsten März kommt eine neue Magd. Wenige Stunden später sind alle sechs Menschen auf dem Hof tot.
+  Gefunden werden sie erst vier Tage später. In dieser Zeit wurde das Vieh versorgt. Und ein Zeuge sah Rauch aus dem Ofen.
+  Über hundert Verdächtige. Niemand wurde je verurteilt.
+  War er die ganze Zeit schon im Haus?
+hook: "Keine Spur zurück"
+captions: true
+scene_params: {}
+youtube:
+  title: "Fußspuren zum Hof – aber keine zurück. Hinterkaifeck 1922 #shorts"
+tiktok:
+  caption: "Hinterkaifeck, 1922: Spuren im Schnee führten zum Hof – keine zurück. Bis heute ungeklärt."
+instagram:
+  caption: "Hinterkaifeck, 1922: Spuren im Schnee führten zum Hof – keine zurück. Bis heute ungeklärt."
+hashtags: ["#hinterkaifeck", "#ungeklärt", "#mystery", "#shorts"]
+quellen:
+  - https://www.gda.bayern.de/mam/ueber-uns/2026_03_16_pm_hinterkaifeck.pdf
+  - https://dewiki.de/Lexikon/Hinterkaifeck
+  - https://www.t-online.de/nachrichten/panorama/kriminalitaet/id_87056554/ungeklaerte-kriminalfaelle-wer-war-die-bestie-von-hinterkaifeck-.html
