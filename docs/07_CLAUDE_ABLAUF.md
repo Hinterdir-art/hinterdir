@@ -34,6 +34,13 @@ GitHub = Ablage (Skripte, Code, Videos auf Branch `media`) + Hosting (GitHub Pag
 10. **Push:** `PushNotification`: „Hinterdir: Video N für morgen wartet auf deine Freigabe 🎬“
 11. **Fragen:** „Passt? Antworte mit ‚passt‘ oder sag, was geändert werden soll.“ **Nichts einplanen ohne ausdrückliches OK.**
 
+### A-Notfall: GitHub-Upload verweigert
+Passiert, wenn die geplante Sitzung keinen Schreibzugriff bekommt (so am 15.11.2026).
+- Trotzdem recherchieren, Skript schreiben, rendern und das Video per `SendUserFile` zeigen.
+- Skript + `slot<N>.json` (mit `"hinweis": "nicht hochgeladen"`) als Projekt-Dokument `freigabe_<MORGEN>_slot<N>…` speichern.
+- Dem Nutzer sagen: **„Upload ging nicht – schreib im Hinterdir-Hauptchat ‚hochladen‘, dann lade ich es hoch und plane es ein.“**
+- Nicht in Buffer einplanen (ohne öffentliche URL geht es nicht).
+
 ## B) Bei „passt“
 1. Buffer-Connector: `get_account` (Organisation „My organization“), `list_channels`. `list_posts` prüfen, dass das Video nicht schon eingeplant ist.
 2. Pro Plattform `create_post`, `mode: customScheduled`, `dueAt` = Uhrzeit aus `settings.yaml` am Datum MORGEN mit korrektem Wiener UTC-Offset, `assets: [{video: {url}}]`, `text` = Caption + Hashtags (`item.hashtags` + `brand.default_hashtags`).
