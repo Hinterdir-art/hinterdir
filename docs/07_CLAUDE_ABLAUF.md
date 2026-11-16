@@ -21,7 +21,7 @@ GitHub = Ablage (Skripte, Code, Videos auf Branch `media`) + Hosting (GitHub Pag
 3. **Schon erledigt?** Existiert `content/freigabe/<MORGEN>/slot<N>.json` mit `"status": "eingeplant"` → nur kurz melden, Ende.
 4. **Fall recherchieren und Skript schreiben** (Konzept siehe `CLAUDE.md`):
    - Liegt eine Datei in `content/queue/` (vom Nutzer), diese zuerst nehmen.
-   - Sonst: `content/faelle.md` und alle `content/freigabe/*/` lesen → **einen neuen, noch nie verwendeten** echten, ungeklärten Fall per Websuche finden. Mindestens 2 seriöse Quellen lesen, Fakten (Datum, Ort, Namen, was passiert ist, was ungeklärt ist) gegenprüfen.
+   - Sonst: `content/faelle.md` und alle `content/freigabe/*/` lesen → **einen neuen, noch nie verwendeten** echten, ungeklärten Fall **ab dem Jahr 2000** per Websuche finden. Mindestens 2 seriöse Quellen lesen, Fakten (Datum, Ort, Namen, was passiert ist, was ungeklärt ist) gegenprüfen.
    - Abwechslung zu den letzten Tagen (anderes Land / Jahrzehnt / Art).
    - Skript als `content/freigabe/<MORGEN>/slot<N>_<id>.yaml` schreiben (Format `docs/05_VIDEO_FORMAT.md`, `scene: nebel`), inkl. `quellen:` (Liste von URLs). Sprechtext 60–110 Wörter, Hook im ersten Satz, Zahlen ausgeschrieben, Ende mit offener Frage oder unheimlicher Pointe.
    - Zeile in `content/faelle.md` ergänzen.

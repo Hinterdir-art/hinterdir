@@ -28,7 +28,9 @@ Buffer: Organisation „My organization“ `6af7b0ffb11418117920fc3f`; Kanäle T
 - Nur **echte, gut dokumentierte** Fälle (mind. 2 seriöse Quellen: Nachrichten, Behörden, Fachliteratur, Wikipedia als Einstieg). Ungeklärt oder mit offenem Rätsel.
 - Fakten exakt; was unbelegt ist, als Vermutung kennzeichnen („angeblich“, „bis heute ungeklärt“). Nichts erfinden.
 - **Respekt vor Opfern und Angehörigen:** keine blutigen Details, keine Witze, keine Verdächtigungen gegen lebende Privatpersonen, keine Adressen von Privatleuten.
-- Abwechslung: Länder, Jahrzehnte und Arten mischen (Verschwinden, rätselhafte Funde, unerklärliche Ereignisse, ungelöste Verbrechen, unheimliche Orte).
+- **Zeitraum (Nutzerwunsch 16.11.2026): Fälle ab dem Jahr 2000** – aktuelle, „moderne“ Fälle (Handys, Überwachungskameras, Internet machen es greifbarer). Ältere Fälle nur, wenn der Nutzer es ausdrücklich will.
+- Bei neueren Fällen besonders vorsichtig: nur, was Behörden/seriöse Medien berichtet haben; keine Namen von Verdächtigen oder Angehörigen, die nicht ohnehin öffentlich im Mittelpunkt stehen; keine Spekulation über lebende Personen; laufende Ermittlungen (jünger als ca. 2 Jahre) eher meiden.
+- Abwechslung: Länder und Arten mischen (Verschwinden, rätselhafte Funde, unerklärliche Ereignisse, ungelöste Verbrechen, unheimliche Orte, Internet-Rätsel).
 - Szenen: `story` mit Drehbuch – zeigt, was erzählt wird, schnelle Schnitte. Farben: Blutrot/Schwarz.
 
 ## 🎞️ PFLICHT-REGELN FÜR JEDES VIDEO (vom Nutzer am 16.11.2026 verlangt)
