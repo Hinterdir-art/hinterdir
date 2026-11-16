@@ -67,6 +67,9 @@ def align_to_script(script, words):
             for k in range(i2 - i1):
                 w = words[j1 + k]; out.append({"text": toks[i1 + k], "start": w["start"], "end": w["end"]})
         elif tag == "delete":                       # nur im Skript (nicht erkannt) → Lücke füllen
+            numw = r"(eins|zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf|zwölf|zig|hundert|tausend|erste|erster)"
+            if all(re.search(numw, norm(t)) for t in toks[i1:i2]) and any(re.search(r"\d", o["text"]) for o in out[-2:]):
+                continue                               # ausgeschriebene Zahl, schon als Ziffer angezeigt
             t0 = out[-1]["end"] if out else 0.0
             t1 = words[j1]["start"] if j1 < len(words) else t0 + 0.4 * (i2 - i1)
             span = max(t1 - t0, 0.25 * (i2 - i1)); step = span / (i2 - i1)
@@ -76,8 +79,15 @@ def align_to_script(script, words):
             continue
         else:                                        # replace
             ws = words[j1:j2]
-            if any(re.search(r"\d", w["text"]) for w in ws):
-                out.extend(ws)                         # Zahlen als Ziffern anzeigen
+            if len(ws) == i2 - i1:                   # gleich viele Wörter → paarweise: Ziffern aus dem Ton, sonst Skript-Text
+                for k, w in enumerate(ws):
+                    txt = w["text"] if re.search(r"\d", w["text"]) else toks[i1 + k]
+                    out.append({"text": txt, "start": w["start"], "end": w["end"]})
+            elif any(re.search(r"\d", w["text"]) for w in ws):
+                for w in ws:                           # Zahlen als Ziffern; Namen trotzdem aus dem Skript, wenn ähnlich
+                    best = max(toks[i1:i2], key=lambda t: difflib.SequenceMatcher(a=norm(t), b=norm(w["text"])).ratio())
+                    ok = not re.search(r"\d", w["text"]) and difflib.SequenceMatcher(a=norm(best), b=norm(w["text"])).ratio() > 0.5
+                    out.append({"text": best if ok else w["text"], "start": w["start"], "end": w["end"]})
             else:
                 t0, t1 = ws[0]["start"], ws[-1]["end"]; n = i2 - i1
                 lens = [len(x) + 1 for x in toks[i1:i2]]; tot = sum(lens); t = t0

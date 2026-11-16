@@ -28,6 +28,10 @@
 //   uhr                     Stehengebliebene Uhr
 //   mantel                  Drei Haken – nur noch ein Mantel
 //   welle                   Riesige Welle über Felsen
+//   kamera(szene,zeit,cam)  Überwachungskamera vor Bar-Eingang: szene rein|leer|gespraech|weg
+//   rolltreppe(zeit,cam)    Überwachungskamera: drei Personen fahren Rolltreppe hinauf
+//   handy(text)             Handy auf Tisch klingelt dreimal, dann dunkel
+//   abflug(rows,hi,fuss)    Abflugtafel, Zeile hi blinkt rot
 //   wald / gang             Stimmungsbilder
 
 export default function createScene({ THREE, scene, camera, params, brand, duration }) {
@@ -93,6 +97,32 @@ export default function createScene({ THREE, scene, camera, params, brand, durat
       geo.attributes.position.needsUpdate = true; geo.computeVertexNormals();
     };
     mesh.position.y = -2; return mesh;
+  }
+  // CCTV-Einblendung: hängt vor der Kamera (in update nach lookFrom aufrufen)
+  function cctvOverlay(cam, zeit) {
+    const [hh, mm, ss] = String(zeit).split(':').map((x) => parseInt(x, 10) || 0); const t0 = hh * 3600 + mm * 60 + ss;
+    const cv = document.createElement('canvas'); cv.width = 540; cv.height = 960; const c = cv.getContext('2d');
+    const tex = new THREE.CanvasTexture(cv); tex.colorSpace = THREE.SRGBColorSpace;
+    const mesh = new THREE.Mesh(new THREE.PlaneGeometry(0.5246, 0.9326), new THREE.MeshBasicMaterial({ map: tex, transparent: true, depthTest: false, depthWrite: false, fog: false }));
+    mesh.renderOrder = 100; let last = -1;
+    const draw = (lt) => {
+      const sec = t0 + Math.floor(lt); const f = Math.floor(lt * 2);
+      if (f === last) return; last = f;
+      c.clearRect(0, 0, 540, 960);
+      const vg = c.createRadialGradient(270, 480, 200, 270, 480, 620); vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(0,0,0,0.75)'); c.fillStyle = vg; c.fillRect(0, 0, 540, 960);
+      c.fillStyle = 'rgba(160,190,170,0.06)'; for (let y = 0; y < 960; y += 4) c.fillRect(0, y, 540, 1);
+      c.font = 'bold 30px Courier New, monospace'; c.fillStyle = '#e8e8e8'; c.textAlign = 'left';
+      const p2 = (n) => String(n).padStart(2, '0');
+      c.fillText(cam, 26, 60); c.fillText(`${p2(Math.floor(sec / 3600) % 24)}:${p2(Math.floor(sec / 60) % 60)}:${p2(sec % 60)}`, 26, 98);
+      if (f % 2 === 0) { c.fillStyle = '#ff2a2a'; c.beginPath(); c.arc(36, 128, 9, 0, 7); c.fill(); }
+      c.fillStyle = '#ff2a2a'; c.font = 'bold 26px Courier New, monospace'; c.fillText('REC', 54, 137);
+      c.strokeStyle = 'rgba(255,255,255,0.5)'; c.lineWidth = 3; [[20, 20, 1, 1], [520, 20, -1, 1], [20, 760, 1, -1], [520, 760, -1, -1]].forEach(([x, y, sx, sy]) => { c.beginPath(); c.moveTo(x, y + sy * 40); c.lineTo(x, y); c.lineTo(x + sx * 40, y); c.stroke(); });
+      tex.needsUpdate = true;
+    };
+    return { mesh, update: (lt) => {
+      draw(lt); camera.updateMatrixWorld();
+      mesh.position.copy(camera.position).add(new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion)); mesh.quaternion.copy(camera.quaternion);
+    } };
   }
   const lookFrom = (x, y, z, tx, ty, tz) => { camera.position.set(x, y, z); camera.lookAt(tx, ty, tz); };
 
@@ -503,6 +533,122 @@ export default function createScene({ THREE, scene, camera, params, brand, durat
         wave.position.z = -20 + k * 12; foam.position.set(0, -2 + 14 * 1.2 * k - 0.4, wave.position.z + 6 * k);
         lookFrom(0, 0.5, 9, 0, 3 * k, -10);
       } };
+    },
+
+    // ── Überwachungskamera-Shots (Fall Brian Shaffer, 2006) ─────
+    kamera(o) {
+      // szene: rein | leer | gespraech | weg   zeit: "01:55:10"   cam: "CAM 02"
+      const g = new THREE.Group(); const mode = o.szene || 'leer';
+      g.add(ground('#24242a', 60));
+      const facade = new THREE.Mesh(new THREE.PlaneGeometry(30, 14), M('#33323a', 0.95)); facade.position.set(0, 5, -6); g.add(facade);
+      for (const x of [-12, -8, -4, 4, 8, 12]) { const pil = box(0.5, 14, 0.4, M('#2a2930')); pil.position.set(x, 5, -5.8); g.add(pil); }
+      const doorGlow = B('#d99a55'); const door = new THREE.Mesh(new THREE.PlaneGeometry(2.6, 3.4), doorGlow); door.position.set(0, -0.3, -5.75); g.add(door);
+      const frame = box(3.0, 0.2, 0.3, M('#111')); frame.position.set(0, 1.5, -5.7); g.add(frame);
+      const sign = textPlane(['BAR'], { font: 'bold 160px Arial, sans-serif', color: '#ff3a3a', width: 2.6, cw: 512, ch: 256 }); sign.position.set(0, 2.6, -5.6); g.add(sign);
+      const warm = new THREE.PointLight('#ffb070', 22, 14, 1.6); warm.position.set(0, 0.5, -4.5); g.add(warm);
+      const street = new THREE.PointLight('#9fb0d0', 18, 30, 1.4); street.position.set(-6, 6, 4); g.add(street);
+      g.add(new THREE.HemisphereLight('#6a6f80', '#101014', 0.6));
+      const person = (c = '#0c0c0f') => { const f = new THREE.Group(); const m = M(c, 0.9);
+        const b = new THREE.Mesh(new THREE.CapsuleGeometry(0.32, 1.25, 4, 10), m); b.position.y = -1.1; f.add(b);
+        const h = new THREE.Mesh(new THREE.SphereGeometry(0.24, 12, 10), m); h.position.y = -0.1; f.add(h); return f; };
+      const hero = person('#15151a'); g.add(hero);
+      const others = [];
+      if (mode === 'gespraech' || mode === 'weg') for (const x of [1.0, 1.7]) { const w = person('#1d1a1f'); w.position.set(x, 0, -2.2); w.rotation.y = -0.6; g.add(w); others.push(w); }
+      // Tracking-Rahmen um ihn
+      const boxTex = canvasTex(256, 512, (c, w, h) => { c.strokeStyle = accent; c.lineWidth = 10; c.strokeRect(8, 8, w - 16, h - 16); });
+      const track = new THREE.Mesh(new THREE.PlaneGeometry(1.1, 2.2), new THREE.MeshBasicMaterial({ map: boxTex, transparent: true, depthTest: false })); track.renderOrder = 50; g.add(track);
+      const ov = cctvOverlay(o.cam || 'CAM 02', o.zeit || '01:14:00'); g.add(ov.mesh);
+      g.userData.fog = new THREE.Fog('#0c0c10', 10, 40);
+      return { g, update: (lt, d) => {
+        lookFrom(3.2, 4.2, 7 - lt * 0.12, 0, -0.6, -3.5);                  // feste Kamera oben, leichter Zoom
+        const k = lt / d;
+        if (mode === 'rein') { hero.visible = true; hero.position.set(0.6 - k * 0.6, 0, 3 - k * 8.2); hero.position.y = Math.abs(Math.sin(lt * 6)) * 0.05; hero.visible = hero.position.z > -5.4; }
+        else if (mode === 'gespraech') { hero.position.set(0.1, 0, -2.3); hero.rotation.y = 0.6 + Math.sin(lt * 1.4) * 0.1; }
+        else if (mode === 'weg') { hero.position.set(0.1 - ease(k * 1.3) * 7.5, Math.abs(Math.sin(lt * 6)) * 0.05, -2.3 + k * 1.5); }
+        else hero.visible = false;
+        others.forEach((w, i) => (w.rotation.y = -0.6 + Math.sin(lt * 1.1 + i) * 0.08));
+        track.visible = hero.visible && mode !== 'leer' && (mode !== 'rein' || k < 0.85) && noise(Math.floor(lt * 8)) > 0.08;
+        track.position.set(hero.position.x, -0.85, hero.position.z + 0.4); track.quaternion.copy(camera.quaternion);
+        ov.update(lt);
+      } };
+    },
+
+    rolltreppe(o) {
+      const g = new THREE.Group(); g.add(ground('#1e1e24', 60));
+      const ang = 0.55, len = 14, steps = [];
+      const dir = new THREE.Vector3(0, Math.sin(ang), -Math.cos(ang));
+      const stepM = M('#5a5a62', 0.5, { metalness: 0.4 });
+      for (let i = 0; i < 34; i++) { const st = box(1.8, 0.08, 0.42, stepM); g.add(st); steps.push(st); }
+      const railM = B('#ffd9a0');
+      for (const x of [-1.05, 1.05]) {
+        const side = box(0.08, 1.0, len, M('#2b2b33', 0.4)); side.position.set(x, -2 + dir.y * len / 2 + 0.45, 2 + dir.z * len / 2); side.rotation.x = ang; g.add(side);
+        const rail = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.06, len), railM); rail.position.set(x, -2 + dir.y * len / 2 + 0.95, 2 + dir.z * len / 2); rail.rotation.x = ang; g.add(rail);
+      }
+      const top = new THREE.Mesh(new THREE.PlaneGeometry(8, 3), B('#d99a55')); top.position.set(0, -2 + dir.y * len + 1.4, 2 + dir.z * len - 0.6); g.add(top);
+      const glow = new THREE.PointLight('#ffb070', 30, 20, 1.5); glow.position.copy(top.position).add(new THREE.Vector3(0, 0, 1.5)); g.add(glow);
+      g.add(new THREE.HemisphereLight('#70768a', '#101014', 0.7));
+      const lamp = new THREE.PointLight('#c8d4ff', 16, 20, 1.5); lamp.position.set(2, 3, 4); g.add(lamp);
+      const people = [0, 1.3, 2.6].map((off, i) => { const f = new THREE.Group(); const m = M(i === 0 ? '#16161b' : '#202026', 0.9);
+        const b = new THREE.Mesh(new THREE.CapsuleGeometry(0.28, 1.15, 4, 10), m); b.position.y = 0.85; f.add(b);
+        const h = new THREE.Mesh(new THREE.SphereGeometry(0.22, 12, 10), m); h.position.y = 1.8; f.add(h); g.add(f); return { f, off }; });
+      const track = new THREE.Mesh(new THREE.PlaneGeometry(1.0, 2.1), new THREE.MeshBasicMaterial({ map: canvasTex(256, 512, (c, w, h) => { c.strokeStyle = accent; c.lineWidth = 10; c.strokeRect(8, 8, w - 16, h - 16); }), transparent: true, depthTest: false })); track.renderOrder = 50; g.add(track);
+      const ov = cctvOverlay(o.cam || 'CAM 01', o.zeit || '01:15:00'); g.add(ov.mesh);
+      g.userData.fog = new THREE.Fog('#0c0c10', 12, 40);
+      return { g, update: (lt, d) => {
+        lookFrom(3.5, 3.2, 7.5, 0, 1.2, -3);
+        steps.forEach((st, i) => { const s = ((i * 0.42 + lt * 0.9) % (34 * 0.42)); st.position.set(0, -2 + dir.y * s, 2 + dir.z * s); });
+        people.forEach(({ f, off }, i) => { const s = 2.2 + off + lt * 0.9; f.position.set(i === 1 ? 0.35 : -0.2, -2 + dir.y * s + 0.05, 2 + dir.z * s); });
+        const h = people[0].f.position; track.position.set(h.x, h.y + 1.2, h.z + 0.3); track.quaternion.copy(camera.quaternion);
+        track.visible = noise(Math.floor(lt * 8) + 2) > 0.08;
+        ov.update(lt);
+      } };
+    },
+
+    handy(o) {
+      const g = new THREE.Group();
+      const table = new THREE.Mesh(new THREE.PlaneGeometry(14, 20), M('#141216', 0.6)); table.rotation.x = -Math.PI / 2; table.position.y = -1; g.add(table);
+      const phone = new THREE.Group(); g.add(phone);
+      const body = box(0.9, 0.08, 1.8, M('#1a1a1e', 0.3, { metalness: 0.5 })); phone.add(body);
+      const onTex = canvasTex(256, 512, (c, w, h) => { c.fillStyle = '#0d0d10'; c.fillRect(0, 0, w, h); c.fillStyle = '#ffffff'; c.textAlign = 'center';
+        c.font = 'bold 24px Arial'; c.fillText(o.text || 'Eingehender Anruf', w / 2, 120); c.font = 'bold 70px Arial'; c.fillStyle = accent; c.fillText('☎', w / 2, 270);
+        c.fillStyle = '#2bd463'; c.beginPath(); c.arc(w / 2, 420, 40, 0, 7); c.fill(); });
+      const scrOn = new THREE.MeshBasicMaterial({ map: onTex }); const scrOff = B('#050506');
+      const screen = new THREE.Mesh(new THREE.PlaneGeometry(0.8, 1.65), scrOff); screen.rotation.x = -Math.PI / 2; screen.position.y = 0.045; phone.add(screen);
+      phone.position.set(0, -0.95, 0); phone.rotation.y = 0.25;
+      const glow = new THREE.PointLight('#bcd0ff', 0, 4, 1.6); glow.position.set(0, -0.4, 0); g.add(glow);
+      const rings = [0, 1, 2].map(() => { const r = new THREE.Mesh(new THREE.RingGeometry(0.95, 1.0, 48), B(accent, { transparent: true, opacity: 0 })); r.rotation.x = -Math.PI / 2; r.position.y = -0.94; g.add(r); return r; });
+      const labels = ['1', '2', '3'].map((n) => { const t = textPlane([n + '×'], { font: 'bold 180px Georgia, serif', color: '#ece4d0', width: 1.0, cw: 256, ch: 256 }); t.position.set(-1.05, 0.2, 0.3); t.rotation.x = -0.6; t.visible = false; g.add(t); return t; });
+      return { g, update: (lt, d) => {
+        lookFrom(0.4, 2.4 - lt * 0.1, 2.4 - lt * 0.1, 0, -0.95, 0);
+        const ringT = [0.08, 0.3, 0.52].map((x) => x * d), dur = 0.16 * d;
+        let on = false, n = -1;
+        ringT.forEach((t0, i) => { const p = (lt - t0) / dur; if (p >= 0 && p < 1) { on = true; n = i; } if (lt >= t0) n = Math.max(n, i);
+          rings[i].material.opacity = p >= 0 && p < 1 ? (1 - p) * 0.8 : 0; rings[i].scale.setScalar(0.6 + Math.max(0, p) * 1.4); });
+        screen.material = on ? scrOn : scrOff; glow.intensity = on ? 3 : 0;
+        phone.position.x = on ? Math.sin(lt * 90) * 0.015 : 0;
+        labels.forEach((l, i) => (l.visible = i === n && lt < ringT[2] + dur * 1.5));
+      } };
+    },
+
+    abflug(o) {
+      const g = new THREE.Group();
+      const wall = new THREE.Mesh(new THREE.PlaneGeometry(14, 20), M('#141418', 1)); wall.position.z = -0.2; g.add(wall);
+      const rows = o.rows || [['MIAMI', 'ABGEFLOGEN']];
+      const hi = o.hi ?? 0;
+      const mk = (blink) => canvasTex(640, 900, (c, w, h) => {
+        c.fillStyle = '#0a0a0c'; c.fillRect(0, 0, w, h);
+        c.fillStyle = '#f2c84b'; c.font = 'bold 56px Courier New, monospace'; c.textAlign = 'left'; c.fillText(o.titel || 'ABFLUG', 40, 90);
+        c.fillStyle = '#333'; c.fillRect(30, 120, w - 60, 4);
+        rows.forEach(([a, b], i) => { const y = 210 + i * 110; const isHi = i === hi;
+          c.fillStyle = '#1a1a1e'; c.fillRect(30, y - 62, w - 60, 90);
+          c.font = 'bold 50px Courier New, monospace'; c.fillStyle = isHi ? '#ffffff' : '#6a6a70'; c.fillText(a, 50, y);
+          c.font = 'bold 36px Courier New, monospace'; c.fillStyle = isHi ? (blink ? accent : '#5a1010') : '#55555a'; c.textAlign = 'right'; c.fillText(b, w - 50, y); c.textAlign = 'left'; });
+        if (o.fuss) { c.fillStyle = accent; c.font = 'bold 34px Courier New, monospace'; c.fillText(o.fuss, 40, h - 90); }
+      });
+      const mA = new THREE.MeshBasicMaterial({ map: mk(true) }), mB = new THREE.MeshBasicMaterial({ map: mk(false) });
+      const board = new THREE.Mesh(new THREE.PlaneGeometry(2.4, 3.375), mA); g.add(board);
+      const lamp = new THREE.PointLight('#ffe0b0', 6, 8); lamp.position.set(0, 2, 3); g.add(lamp);
+      return { g, update: (lt) => { lookFrom(0.3 - lt * 0.08, -0.1, 6.4 - lt * 0.15, 0, 0, 0); board.material = Math.floor(lt * 2.5) % 2 ? mB : mA; } };
     },
 
     wald(o) {

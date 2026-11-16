@@ -7,3 +7,4 @@ Jeder Fall nur **einmal**. Vor jeder Recherche hier nachsehen, nach jedem erstel
 | 2026-11-16 | 0 | hinterkaifeck | Hinterkaifeck (Bayern, 1922) | gda.bayern.de, dewiki, t-online |
 | 2026-11-16 | 1 | somerton-mann | Somerton-Mann / Tamám Shud (Australien, 1948) | archives.sa.gov.au, indailysa, mentalfloss |
 | 2026-11-16 | 2 | flannan-isles | Flannan-Inseln Leuchtturm (Schottland, 1900) | nrscotland.gov.uk, Wikipedia, history.co.uk |
+| 2026-11-17 | 0 | brian-shaffer | Brian Shaffer – verschwunden aus Bar (Columbus, USA, 2006) | Wikipedia, abc6onyourside, investigationdiscovery |

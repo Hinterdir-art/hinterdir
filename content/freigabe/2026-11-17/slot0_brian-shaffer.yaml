@@ -1,0 +1,38 @@
+id: brian-shaffer
+scene: story
+script: |
+  Eine Kamera filmt, wie er in eine Bar geht. Keine einzige filmt, wie er herauskommt.
+  Columbus, Ohio, erster April zweitausendsechs. Brian Shaffer, siebenundzwanzig, Medizinstudent.
+  Um ein Uhr fünfzehn fährt er mit Freunden die Rolltreppe zur Bar hinauf.
+  Kurz vor zwei steht er vor dem Eingang und redet mit zwei jungen Frauen. Dann geht er aus dem Bild.
+  Als die Bar schließt, ist er weg. Kein Anruf. Keine Kontobewegung. Nichts.
+  Tage später wollte er mit seiner Freundin nach Miami fliegen. Der Flug geht ohne ihn.
+  Monate später klingelt sein Handy plötzlich dreimal, als sie anruft. Dann nie wieder.
+  Bis heute fragt die Polizei: Wie verschwindet ein Mensch an einem Ort voller Kameras?
+hook: "Rein. Nie raus."
+captions: true
+# Drehbuch: jeder Shot beginnt beim Stichwort (cue) im Ton; mood = Musik dazu
+shots:
+  - { type: kamera, szene: rein, cam: "CAM 02", zeit: "01:14:52", mood: spannung }
+  - { cue: "Keine", type: kamera, szene: leer, cam: "CAM 02", zeit: "02:00:13", mood: stille }
+  - { cue: "Columbus", type: karte, lines: ["Columbus, Ohio", "1. April 2006"], mood: drone }
+  - { cue: "Brian", type: akte, lines: ["BRIAN SHAFFER", "27 JAHRE", "MEDIZINSTUDENT"], stempel: "VERMISST", mood: drone }
+  - { cue: "Um", type: rolltreppe, cam: "CAM 01", zeit: "01:15:04", mood: spannung }
+  - { cue: "Kurz", type: kamera, szene: gespraech, cam: "CAM 02", zeit: "01:55:21", mood: herz }
+  - { cue: "Dann", type: kamera, szene: weg, cam: "CAM 02", zeit: "01:55:48", mood: herz }
+  - { cue: "Als", type: kamera, szene: leer, cam: "CAM 02", zeit: "02:00:41", mood: stille }
+  - { cue: "Kein", type: akte, lines: ["ANRUFE: KEINE", "KONTO: KEINE BEWEGUNG", "SICHTUNG: KEINE"], stempel: "NICHTS", mood: drone }
+  - { cue: "Tage", type: abflug, titel: "ABFLUG", rows: [["MIAMI", "ABGEFLOGEN"], ["- - - -", ""], ["- - - -", ""]], hi: 0, fuss: "PASSAGIER NICHT ERSCHIENEN", mood: spieluhr }
+  - { cue: "Monate", type: handy, text: "Eingehender Anruf", mood: ticken }
+  - { cue: "Bis", type: frage, mood: schock }
+youtube:
+  title: "Er ging in eine Bar – keine Kamera sah ihn je wieder herauskommen #shorts"
+tiktok:
+  caption: "Columbus, 2006: Medizinstudent Brian Shaffer betritt eine Bar voller Überwachungskameras. Keine filmt, wie er sie verlässt. Bis heute ungeklärt."
+instagram:
+  caption: "Columbus, 2006: Medizinstudent Brian Shaffer betritt eine Bar voller Überwachungskameras. Keine filmt, wie er sie verlässt. Bis heute ungeklärt."
+hashtags: ["#brianshaffer", "#vermisst", "#ungeklärt", "#shorts"]
+quellen:
+  - https://en.wikipedia.org/wiki/Disappearance_of_Brian_Shaffer
+  - https://abc6onyourside.com/on-your-side/6-on-your-side/cold-case-missing-ohio-state-medical-student-brian-shaffer-vanished-after-night-out-ugly-tuna-saloona-never-seen-again-2006-osu-campus-gateway-disappearance-police-detective-john-hurst
+  - https://www.investigationdiscovery.com/crimefeed/id-shows/the-missing-2006-med-student-brian-shaffer-disappeard-in-a-bar
