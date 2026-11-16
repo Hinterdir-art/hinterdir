@@ -3,5 +3,15 @@
  "id": "flannan-isles",
  "file": "slot2_flannan-isles.yaml",
  "url": "https://hinterdir-art.github.io/hinterdir/videos/2026-11-16/flannan-isles.mp4",
- "status": "wartet"
+ "status": "eingeplant",
+ "buffer": {
+  "youtube": {
+   "id": "6afae72ad2a6b9d4fcb062de",
+   "zeit": "20:00"
+  },
+  "tiktok": {
+   "id": "6afae72a0c2af02527d91adb",
+   "zeit": "21:00"
+  }
+ }
 }

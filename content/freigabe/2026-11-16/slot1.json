@@ -3,5 +3,15 @@
  "id": "somerton-mann",
  "file": "slot1_somerton-mann.yaml",
  "url": "https://hinterdir-art.github.io/hinterdir/videos/2026-11-16/somerton-mann.mp4",
- "status": "wartet"
+ "status": "eingeplant",
+ "buffer": {
+  "youtube": {
+   "id": "6afae72837f9e5273be1fe7d",
+   "zeit": "17:00"
+  },
+  "tiktok": {
+   "id": "6afae7290b49b20d0d0c6fef",
+   "zeit": "18:30"
+  }
+ }
 }

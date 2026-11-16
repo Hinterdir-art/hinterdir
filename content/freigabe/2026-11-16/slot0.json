@@ -3,5 +3,15 @@
  "id": "hinterkaifeck",
  "file": "slot0_hinterkaifeck.yaml",
  "url": "https://hinterdir-art.github.io/hinterdir/videos/2026-11-16/hinterkaifeck.mp4",
- "status": "wartet"
+ "status": "eingeplant",
+ "buffer": {
+  "youtube": {
+   "id": "6afae72708857c5667bcafa1",
+   "zeit": "12:40 (nachgeholt)"
+  },
+  "tiktok": {
+   "id": "6afae7260c2af02527d919b9",
+   "zeit": "12:35"
+  }
+ }
 }
