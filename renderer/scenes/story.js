@@ -271,8 +271,10 @@ export default function createScene({ THREE, scene, camera, params, brand, durat
       const g = new THREE.Group();
       const desk = new THREE.Mesh(new THREE.PlaneGeometry(12, 18), M('#2a1e15', 0.9)); desk.position.z = -0.05; g.add(desk);
       const tex = canvasTex(600, 800, (c, w, h) => {
-        c.fillStyle = '#c9b48a'; c.fillRect(0, 0, w, h); c.fillStyle = '#3a2a18'; c.font = 'bold 54px Courier New, monospace'; c.textAlign = 'left';
-        (o.lines || ['MORDFALL', 'AKTE NR. ???']).forEach((l, i) => c.fillText(l, 50, 110 + i * 70));
+        c.fillStyle = '#c9b48a'; c.fillRect(0, 0, w, h); c.fillStyle = '#3a2a18'; c.textAlign = 'left';
+        const ls = o.lines || ['MORDFALL', 'AKTE NR. ???']; let fs = 54;
+        do { c.font = `bold ${fs}px Courier New, monospace`; fs -= 2; } while (Math.max(...ls.map((l) => c.measureText(l).width)) > w - 100 && fs > 20);
+        ls.forEach((l, i) => c.fillText(l, 50, 110 + i * (fs + 18)));
         c.strokeStyle = 'rgba(60,40,20,0.4)'; for (let i = 0; i < 9; i++) { c.beginPath(); c.moveTo(50, 330 + i * 45); c.lineTo(w - 50, 330 + i * 45); c.stroke(); }
       });
       const folder = new THREE.Mesh(new THREE.PlaneGeometry(3, 4), new THREE.MeshStandardMaterial({ map: tex, roughness: 0.9 })); folder.rotation.z = 0.05; g.add(folder);
@@ -403,7 +405,7 @@ export default function createScene({ THREE, scene, camera, params, brand, durat
       const house = box(3, 1.6, 2, M('#bdb6a8')); house.position.set(2.6, 1.2, -16); g.add(house);
       const beam = new THREE.Mesh(new THREE.ConeGeometry(2.5, 30, 24, 1, true), new THREE.MeshBasicMaterial({ color: '#fff4c8', transparent: true, opacity: 0.12, side: THREE.DoubleSide, depthWrite: false }));
       beam.geometry.translate(0, -15, 0); beam.rotation.z = Math.PI / 2; beam.position.set(0, 7.2, -16); beam.visible = !!o.an; g.add(beam);
-      const storm = new THREE.DirectionalLight('#6f84b0', 0.9); storm.position.set(-5, 10, 5); g.add(storm);
+      const storm = new THREE.DirectionalLight('#6f84b0', 1.3); storm.position.set(-5, 10, 5); g.add(storm); g.add(new THREE.HemisphereLight('#4a5a80', '#05080c', 0.6));
       const rp = new Float32Array(600 * 6);
       for (let i = 0; i < 600; i++) { const x = (rand() - 0.5) * 40, y = rand() * 20, z = -rand() * 30; rp.set([x, y, z, x + 0.15, y - 0.6, z], i * 6); }
       const rain = new THREE.LineSegments(new THREE.BufferGeometry().setAttribute('position', new THREE.BufferAttribute(rp, 3)), new THREE.LineBasicMaterial({ color: '#8b98b5', transparent: true, opacity: 0.4 }));
@@ -412,7 +414,7 @@ export default function createScene({ THREE, scene, camera, params, brand, durat
       return { g, update: (lt, d) => {
         water.userData.update(lt, 0.55); beam.rotation.y = lt * 1.6;
         lookFrom(-6 + lt * 0.8, 1.5, 10 - lt * 0.6, 0, 4, -16);
-        rain.position.y = -((lt * 25) % 20); storm.intensity = noise(Math.floor(lt * 6) + 4) > 0.94 ? 6 : 0.9;   // Blitz
+        rain.position.y = -((lt * 25) % 20); storm.intensity = noise(Math.floor(lt * 6) + 4) > 0.94 ? 6 : 1.3;   // Blitz
       } };
     },
 
@@ -424,7 +426,7 @@ export default function createScene({ THREE, scene, camera, params, brand, durat
       const funnel = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.35, 1.6, 12), M('#3a1a1a')); funnel.position.set(0, 2.2, 0); ship.add(funnel);
       for (let i = 0; i < 5; i++) { const w = new THREE.Mesh(new THREE.PlaneGeometry(0.25, 0.2), B('#ffd27a')); w.position.set(-1.6 + i * 0.5, 1.05, 0.61); ship.add(w); }
       ship.position.set(-25, -1.4, -6); lh.g.add(ship);
-      return { g: lh.g, update: (lt, d) => { lh.update(lt, d); ship.position.x = -18 + lt * 4; ship.position.y = -1.4 + Math.sin(lt * 1.5) * 0.15; lookFrom(-3, 1.2, 12, 0, 2, -12); } };
+      return { g: lh.g, update: (lt, d) => { lh.update(lt, d); ship.position.x = -6 + lt * 2.6; ship.position.y = -1.4 + Math.sin(lt * 1.5) * 0.15; lookFrom(-1, 1.2, 12, 0, 1.5, -10); } };
     },
 
     tuer(o) {
@@ -433,8 +435,8 @@ export default function createScene({ THREE, scene, camera, params, brand, durat
       for (let i = 0; i < 60; i++) { const s = box(0.9 + rand() * 0.5, 0.45, 0.12, M(rand() > 0.5 ? '#55514a' : '#3e3b35', 1)); s.position.set(-6 + (i % 10) * 1.25 + (Math.floor(i / 10) % 2) * 0.6, -2.5 + Math.floor(i / 10) * 0.5, 0); g.add(s); }
       const door = box(1.8, 3.2, 0.2, M('#3a2516', 0.8)); door.position.set(0, -0.6, 0.15); g.add(door);
       for (const y of [-1.6, 0.4]) { const band = box(1.85, 0.12, 0.05, M('#1a1a1a', 0.4, { metalness: 0.6 })); band.position.set(0, y, 0.27); g.add(band); }
-      const lamp = new THREE.PointLight('#cfd8ff', 10, 10, 1.8); lamp.position.set(2, 2, 4); g.add(lamp);
-      return { g, update: (lt) => { lookFrom(0, -0.3, 6 - lt * 0.6, 0, -0.5, 0); } };
+      const lamp = new THREE.PointLight('#cfd8ff', 35, 14, 1.4); lamp.position.set(2, 2, 4); g.add(lamp); g.add(new THREE.HemisphereLight('#8090b0', '#201810', 0.8));
+      return { g, update: (lt) => { lookFrom(0, -0.3, 5 - lt * 0.5, 0, -0.5, 0); } };
     },
 
     kueche(o) {
@@ -488,11 +490,11 @@ export default function createScene({ THREE, scene, camera, params, brand, durat
       const g = new THREE.Group();
       const water = sea(120, '#0e1c26'); g.add(water);
       const rocks = new THREE.Mesh(new THREE.ConeGeometry(6, 4, 8), M('#24241f', 1)); rocks.position.set(0, -1.5, 0); g.add(rocks);
-      const geo = new THREE.PlaneGeometry(40, 14, 40, 14); const wave = new THREE.Mesh(geo, M('#1d3a4a', 0.3, { side: THREE.DoubleSide, flatShading: true }));
+      const geo = new THREE.PlaneGeometry(40, 14, 40, 14); const wave = new THREE.Mesh(geo, M('#3f6f86', 0.25, { side: THREE.DoubleSide, flatShading: true }));
       const base = geo.attributes.position.array.slice(); wave.position.set(0, -2, -20); g.add(wave);
       const foam = new THREE.Mesh(new THREE.PlaneGeometry(40, 1.2), B('#c8d6dc', { transparent: true, opacity: 0.6 })); g.add(foam);
-      const storm = new THREE.DirectionalLight('#7a8fb8', 1.2); storm.position.set(-4, 8, 8); g.add(storm);
-      g.userData.fog = new THREE.Fog('#121822', 15, 70);
+      const storm = new THREE.DirectionalLight('#9fb4e0', 2.2); storm.position.set(-4, 8, 8); g.add(storm); g.add(new THREE.HemisphereLight('#6a7fa8', '#0a0f14', 0.9));
+      g.userData.fog = new THREE.Fog('#1a2230', 18, 80);
       return { g, update: (lt, d) => {
         water.userData.update(lt, 0.7);
         const k = ease(lt / d); const p = geo.attributes.position.array;
