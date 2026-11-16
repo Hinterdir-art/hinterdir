@@ -25,7 +25,7 @@ GitHub = Ablage (Skripte, Code, Videos auf Branch `media`) + Hosting (GitHub Pag
    - Abwechslung zu den letzten Tagen (anderes Land / Jahrzehnt / Art).
    - Skript als `content/freigabe/<MORGEN>/slot<N>_<id>.yaml` schreiben (Format `docs/05_VIDEO_FORMAT.md`, `scene: nebel`), inkl. `quellen:` (Liste von URLs). Sprechtext 60–110 Wörter, Hook im ersten Satz, Zahlen ausgeschrieben, Ende mit offener Frage oder unheimlicher Pointe.
    - Zeile in `content/faelle.md` ergänzen.
-5. **Stimme:** Speko-Connector `audio_synthesize` mit `text` = `script`, `intent: {language: "de"}`, `voice` und `constraints.allowedProviders.tts: [provider]` aus `settings.yaml → voice` (bzw. `item.voice`). Die WAV-Datei liegt danach unter `/tmp/claude-tool-results/…/mcp-Speko-blob-*.wav`.
+5. **Stimme:** Speko-Connector `audio_synthesize` mit `text` = `script`, `intent: {language: "de"}` und aus `settings.yaml → voice`: `voice`, `model`, `speed`, `instructions`, `constraints.allowedProviders.tts: [provider]`. Danach **immer** den Horror-Effekt: `bash tools/voice_fx.sh <roh.wav> /tmp/out/<id>_voice.wav` und diese Datei zum Rendern nehmen.
 6. **Rendern:** `python3 tools/render.py <skript.yaml> <wav> /tmp/out/<id>.mp4` (ca. 1–3 Min.). Danach 2 Frames mit ffmpeg herausziehen und selbst ansehen (Text lesbar? nichts abgeschnitten?).
 7. **Hochladen:** `bash tools/publish.sh /tmp/out/<id>.mp4 <MORGEN> <id>` → gibt die öffentliche URL aus.
 8. **Ablegen:** (Queue-Datei ggf. nach `content/freigabe/<MORGEN>/` verschieben) und `content/freigabe/<MORGEN>/slot<N>.json` schreiben:

@@ -29,7 +29,7 @@ Buffer: Organisation „My organization“ `6af7b0ffb11418117920fc3f`; Kanäle T
 - Fakten exakt; was unbelegt ist, als Vermutung kennzeichnen („angeblich“, „bis heute ungeklärt“). Nichts erfinden.
 - **Respekt vor Opfern und Angehörigen:** keine blutigen Details, keine Witze, keine Verdächtigungen gegen lebende Privatpersonen, keine Adressen von Privatleuten.
 - Abwechslung: Länder, Jahrzehnte und Arten mischen (Verschwinden, rätselhafte Funde, unerklärliche Ereignisse, ungelöste Verbrechen, unheimliche Orte).
-- Szene Standard: `nebel` (düsterer Gang, rote Tür). Farben: Blutrot/Schwarz.
+- Szenen: Nutzer will **schnell wechselnde Szenen**. Kandidaten `montage3d` (Wald, Hof, Spuren, Gang, Gestalt) und `montage2d` (Scherenschnitt-Stil); `nebel` = alter Einzelszenen-Stil. Farben: Blutrot/Schwarz.
 
 ## Wenn du neue Videos erstellen sollst
 1. `docs/05_VIDEO_FORMAT.md` und `docs/07_CLAUDE_ABLAUF.md` lesen.
@@ -47,7 +47,7 @@ Buffer: Organisation „My organization“ `6af7b0ffb11418117920fc3f`; Kanäle T
 
 ## Technische Eckdaten (Stand Nov 2026 – bei Zweifel Doku prüfen)
 - Buffer API: GraphQL `https://api.buffer.com`, Public Beta, Free-Plan 3 Kanäle / 10 geplante Posts pro Kanal / 3.000 Requests pro Monat. `createPost` mit `mode: customScheduled`, `dueAt` UTC-ISO. YouTube braucht `metadata.youtube.title` + `categoryId`; Instagram `metadata.instagram.type: reel` + `shouldShareToFeed`. Buffer lädt die Media-URL erst beim Veröffentlichen.
-- Speko: Connector `audio_synthesize` → WAV (keine Wort-Timings → Untertitel werden in `tools/render.py` geschätzt). Stimme in `settings.yaml → voice` (Standard inworld/Annika). `voices_search` für andere Stimmen.
+- Speko: Connector `audio_synthesize` → WAV (keine Wort-Timings → Untertitel werden in `tools/render.py` geschätzt). Stimme in `settings.yaml → voice` (Onyx, model gpt-4o-mini-tts, speed, instructions) + danach `tools/voice_fx.sh`. Nutzer will **menschliche, tiefe Horror-Stimme, etwas schneller**.
 - Keine GitHub-Secrets nötig: Speko und Buffer laufen über Claudes Connectors, GitHub über die verknüpfte Claude-GitHub-App.
 
 ## Nicht tun
@@ -60,6 +60,7 @@ Buffer: Organisation „My organization“ `6af7b0ffb11418117920fc3f`; Kanäle T
 ## Offene Punkte
 - [x] Video-Konzept: wahre unheimliche, ungeklärte Fälle (täglich recherchiert)
 - [x] Markenfarben Blutrot/Schwarz, Szene `nebel`
-- [x] Stimme: **Annika** (inworld) – vom Nutzer am 15.11.2026 gewählt
+- [x] Stimme: **Onyx (OpenAI über Speko) + Horror-Effekt** (`tools/voice_fx.sh`), Tempo 1.12 – vom Nutzer am 16.11.2026 gewählt (Annika abgelehnt: klang roboterhaft)
+- [ ] Video-Stil: Nutzer vergleicht `montage3d` vs. `montage2d` (schnelle Schnitte alle ~2,6 s)
 - [ ] Weitere Szenen für Abwechslung (z. B. Wald, verlassenes Haus, Straße bei Nacht)
 - [ ] Instagram wieder aktivieren, sobald verbunden

@@ -47,14 +47,16 @@ platforms:
 # Kennzeichnung von KI-Inhalten (KI-Stimme). Empfehlung: true lassen.
 ai_disclosure: true
 
-# Stimme (Speko). Getestete deutsche Stimmen – siehe docs/02_VERBINDUNGEN.md:
-#   inworld:  Annika (w), Reinhard (m)           – günstig, klar
-#   cartesia: Sebastian (m) b7187e84-fe22-4344-ba4a-bc013fcb533e, Alina (w) 38aabb6a-f52b-4fb0-a3d1-988518f4dc06
-#   elevenlabs: Roman (m) 1YST1S3BrkT7E0wcLKQD, Rhea (w) le3O97c6UClnRdpxkDTb – teurer, sehr natürlich
+# Stimme (Speko) – vom Nutzer gewählt am 16.11.2026: „H2 Onyx Horror-Effekt“
+# Speko audio_synthesize mit genau diesen Werten, danach tools/voice_fx.sh anwenden.
 voice:
   language: de
-  provider: inworld
-  voice: Annika
+  provider: openai
+  model: gpt-4o-mini-tts
+  voice: onyx
+  speed: 1.12               # etwas schneller als normal (Nutzerwunsch)
+  instructions: "Sehr tiefe, raue, düstere Männerstimme wie ein Horrorfilm-Erzähler. Leise und bedrohlich, als würdest du direkt hinter dem Zuhörer stehen. Flüssig und zügig, nicht langsam. Hochdeutsch ohne Akzent."
+  effect: tools/voice_fx.sh # tiefer + Bass + Hall
 
 # Video-Ausgabe (Exakt 1080×1920 – YouTube via Buffer lehnt sonst ab)
 render:
