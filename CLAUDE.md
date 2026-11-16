@@ -29,7 +29,14 @@ Buffer: Organisation „My organization“ `6af7b0ffb11418117920fc3f`; Kanäle T
 - Fakten exakt; was unbelegt ist, als Vermutung kennzeichnen („angeblich“, „bis heute ungeklärt“). Nichts erfinden.
 - **Respekt vor Opfern und Angehörigen:** keine blutigen Details, keine Witze, keine Verdächtigungen gegen lebende Privatpersonen, keine Adressen von Privatleuten.
 - Abwechslung: Länder, Jahrzehnte und Arten mischen (Verschwinden, rätselhafte Funde, unerklärliche Ereignisse, ungelöste Verbrechen, unheimliche Orte).
-- Szenen: Nutzer will **schnell wechselnde Szenen**. Kandidaten `montage3d` (Wald, Hof, Spuren, Gang, Gestalt) und `montage2d` (Scherenschnitt-Stil); `nebel` = alter Einzelszenen-Stil. Farben: Blutrot/Schwarz.
+- Szenen: `story` mit Drehbuch – zeigt, was erzählt wird, schnelle Schnitte. Farben: Blutrot/Schwarz.
+
+## 🎞️ PFLICHT-REGELN FÜR JEDES VIDEO (vom Nutzer am 16.11.2026 verlangt)
+1. **Untertitel exakt synchron zum Ton.** Immer: Ton mit Speko `audio_transcribe` (`word_timestamps: true`, `keywords` = Namen) transkribieren und an `tools/render.py --words` geben. Nie schätzen. Untertitel-Text kommt aus dem Skript, Timing aus der Transkription (automatisch).
+2. **Musik passend zu jeder Szene** – jeder Shot hat ein `mood` (wind, herz, spieluhr, spannung, meer, ticken, stille, schock, drone). Wechselt die Szene inhaltlich, wechselt die Musik; gleiche Stimmung = Musik läuft weiter. Keine fremde Musik – `tools/music.py` erzeugt sie.
+3. **Man muss sehen, was erzählt wird.** `scene: story` + Drehbuch `shots:` – zu jedem Satz das passende Bild (Ort/Datum als Karte, Gegenstände, Orte, Handlungen). Kein beliebiges Stimmungsbild. Neue Fälle brauchen evtl. neue Shot-Typen in `renderer/scenes/story.js` → dann ergänzen.
+4. Schnelle Schnitte: alle 2–4 Sekunden ein neuer Shot.
+5. Vor dem Zeigen selbst prüfen: aus jedem Shot einen Frame ansehen (nichts abgeschnitten? erkennbar?).
 
 ## Wenn du neue Videos erstellen sollst
 1. `docs/05_VIDEO_FORMAT.md` und `docs/07_CLAUDE_ABLAUF.md` lesen.
@@ -61,6 +68,6 @@ Buffer: Organisation „My organization“ `6af7b0ffb11418117920fc3f`; Kanäle T
 - [x] Video-Konzept: wahre unheimliche, ungeklärte Fälle (täglich recherchiert)
 - [x] Markenfarben Blutrot/Schwarz, Szene `nebel`
 - [x] Stimme: **Onyx (OpenAI über Speko) + Horror-Effekt** (`tools/voice_fx.sh`), Tempo 1.12 – vom Nutzer am 16.11.2026 gewählt (Annika abgelehnt: klang roboterhaft)
-- [ ] Video-Stil: Nutzer vergleicht `montage3d` vs. `montage2d` (schnelle Schnitte alle ~2,6 s)
+- [x] Video-Stil: `story` (Drehbuch-Shots, 3D) – montage3d/2d waren dem Nutzer zu wenig aussagekräftig
 - [ ] Weitere Szenen für Abwechslung (z. B. Wald, verlassenes Haus, Straße bei Nacht)
 - [ ] Instagram wieder aktivieren, sobald verbunden

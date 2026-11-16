@@ -1,5 +1,5 @@
 id: hinterkaifeck
-scene: nebel
+scene: story
 script: |
   Ein Bauer findet Fußspuren im Schnee. Sie führen aus dem Wald zu seinem Hof. Aber keine einzige führt zurück.
   Oberbayern, Frühjahr neunzehnhundertzweiundzwanzig. Der Hof heißt Hinterkaifeck.
@@ -10,7 +10,23 @@ script: |
   War er die ganze Zeit schon im Haus?
 hook: "Keine Spur zurück"
 captions: true
-scene_params: {}
+# Drehbuch: jeder Shot beginnt beim Stichwort (cue) im gesprochenen Ton; mood = Musik dazu
+shots:
+  - { type: spuren, mood: wind }
+  - { cue: "Hof", type: hof, mood: wind }
+  - { cue: "aber", type: spuren, mood: herz }
+  - { cue: "Oberbayern", type: karte, lines: ["Oberbayern", "Frühjahr 1922"], mood: drone }
+  - { cue: "Der", type: hof, name: "Hinterkaifeck", mood: spieluhr }
+  - { cue: "Nachts", type: dachboden, mood: herz }
+  - { cue: "Hausschlüssel", type: schluessel, mood: spannung }
+  - { cue: "durchsucht", type: suche, mood: spannung }
+  - { cue: "31", type: kalender, pages: ["31\nMÄRZ"], year: "1922", mood: spieluhr }
+  - { cue: "Wenige", type: kerzen, n: 6, mood: schock }
+  - { cue: "Gefunden", type: kalender, pages: ["31\nMÄRZ", "1\nAPRIL", "2\nAPRIL", "3\nAPRIL", "4\nAPRIL"], year: "1922", mood: ticken }
+  - { cue: "In", type: hof, rauch: true, mood: drone }
+  - { cue: "Über", type: verdaechtige, n: 100, mood: spannung }
+  - { cue: "Niemand", type: akte, lines: ["MORDFALL", "HINTERKAIFECK", "31.03.1922"], stempel: "UNGELÖST", mood: drone }
+  - { cue: "War", type: frage, mood: herz }
 youtube:
   title: "Fußspuren zum Hof – aber keine zurück. Hinterkaifeck 1922 #shorts"
 tiktok:

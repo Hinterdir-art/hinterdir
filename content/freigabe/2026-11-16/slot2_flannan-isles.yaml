@@ -1,5 +1,5 @@
 id: flannan-isles
-scene: nebel
+scene: story
 script: |
   Drei Männer auf einer Insel. Und plötzlich ist das Licht aus.
   Flannan-Inseln, Schottland, Dezember neunzehnhundert.
@@ -13,7 +13,20 @@ script: |
   Und bis heute weiß niemand, warum einer von ihnen ohne Mantel hinaus ins Unwetter lief.
 hook: "Das Licht ist aus"
 captions: true
-scene_params: {}
+# Drehbuch: jeder Shot beginnt beim Stichwort (cue) im Ton; mood = Musik dazu
+shots:
+  - { type: leuchtturm, an: true, mood: meer }
+  - { cue: "plötzlich", type: leuchtturm, an: false, mood: schock }
+  - { cue: "Flannan", type: karte, lines: ["Flannan-Inseln", "Dezember 1900"], mood: meer }
+  - { cue: "Am", type: schiff, mood: meer }
+  - { cue: "Erst", type: kalender, pages: ["15\nDEZ", "20\nDEZ", "26\nDEZ"], year: "1900", mood: ticken }
+  - { cue: "Tor", type: tuer, mood: drone }
+  - { cue: "Lampen", type: kueche, mood: spieluhr }
+  - { cue: "Uhr", type: uhr, mood: ticken }
+  - { cue: "Zwei", type: mantel, mood: herz }
+  - { cue: "Behörde", type: welle, mood: schock }
+  - { cue: "Gefunden", type: leuchtturm, an: false, mood: meer }
+  - { cue: "warum", type: frage, mood: herz }
 youtube:
   title: "Drei Leuchtturmwärter verschwinden spurlos – Schottland 1900 #shorts"
 tiktok:

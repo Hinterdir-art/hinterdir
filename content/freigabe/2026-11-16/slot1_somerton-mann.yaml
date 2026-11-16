@@ -1,5 +1,5 @@
 id: somerton-mann
-scene: nebel
+scene: story
 script: |
   Ein toter Mann am Strand. Jemand hat jedes Etikett aus seiner Kleidung geschnitten.
   Somerton Beach, Australien, erster Dezember neunzehnhundertachtundvierzig.
@@ -11,7 +11,19 @@ script: |
   Aber wie er starb, und für wen dieser Code bestimmt war, weiß niemand.
 hook: "Es ist zu Ende"
 captions: true
-scene_params: {}
+# Drehbuch: jeder Shot beginnt beim Stichwort (cue) im Ton; mood = Musik dazu
+shots:
+  - { type: strand, mood: meer }
+  - { cue: "Jemand", type: jacke, mood: spannung }
+  - { cue: "Somerton", type: karte, lines: ["Somerton Beach", "1. Dezember 1948"], mood: meer }
+  - { cue: "Keine", type: akte, lines: ["UNBEKANNTER TOTER", "PAPIERE: KEINE", "VERLETZUNG: KEINE"], stempel: "?", mood: drone }
+  - { cue: "Ärzte", type: gift, mood: herz }
+  - { cue: "In", type: jacke, mood: spannung }
+  - { cue: "Darauf", type: zettel, text: "Tamám Shud", mood: spieluhr }
+  - { cue: "Monate", type: buch, mood: spieluhr }
+  - { cue: "Rückseite", type: code, lines: ["WRGOABABD", "MLIAOI", "WTBIMPANETP", "MLIABOAIAQC", "ITTMTSAMSTGAB"], mood: spannung }
+  - { cue: "Erst", type: dna, mood: drone }
+  - { cue: "Aber", type: frage, mood: herz }
 youtube:
   title: "Tot am Strand, alle Etiketten entfernt – und ein Code, den niemand knackt #shorts"
 tiktok:

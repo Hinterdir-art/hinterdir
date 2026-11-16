@@ -26,10 +26,14 @@ window.__setup = async (data) => {
   // Untertitel in 3-Wort-Gruppen
   const groups = [];
   if (captions && words?.length) {
-    for (let i = 0; i < words.length; i += 3) {
-      const g = words.slice(i, i + 3);
-      groups.push({ start: g[0].start, end: g[g.length - 1].end, words: g });
-    }
+    let cur = [];
+    const flush = () => { if (cur.length) groups.push({ start: cur[0].start, end: cur[cur.length - 1].end, words: cur }); cur = []; };
+    words.forEach((w, i) => {
+      const prev = cur[cur.length - 1];
+      if (prev && (/[.!?…]$/.test(prev.text) || w.start - prev.end > 0.35 || cur.length >= 3)) flush();
+      cur.push(w);
+    });
+    flush();
   }
   document.getElementById('hook').textContent = hook || '';
   ctx = { renderer, scene, camera, update, groups, duration };
@@ -46,7 +50,7 @@ window.__frame = (t) => {
   hookEl.style.opacity = String(Math.max(0, Math.min(1, (3 - t) / 0.5)));
 
   const capEl = document.getElementById('captions');
-  const g = groups.find(x => t >= x.start - 0.05 && t <= x.end + 0.25);
+  const g = groups.find((x, i) => t >= x.start - 0.03 && t < (groups[i + 1] ? Math.min(groups[i + 1].start - 0.03, x.end + 0.4) : x.end + 0.6));
   capEl.innerHTML = g
     ? g.words.map(w => `<span class="${t >= w.start && t <= w.end + 0.1 ? 'on' : ''}">${escapeHtml(w.text)}</span>`).join(' ')
     : '';

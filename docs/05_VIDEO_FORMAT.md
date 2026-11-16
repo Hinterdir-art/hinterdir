@@ -25,6 +25,17 @@ quellen:                       # Pflicht bei wahren Fällen, mind. 2
 # voice: { provider: cartesia, voice: b7187e84-… }   # optional andere Stimme nur für dieses Video
 ```
 
+## Drehbuch (`shots`) – Pflicht seit 16.11.2026
+```yaml
+scene: story
+shots:
+  - { type: spuren, mood: wind }                         # erster Shot ohne cue
+  - { cue: "Oberbayern", type: karte, lines: ["Oberbayern", "Frühjahr 1922"], mood: drone }
+  - { cue: "Nachts", type: dachboden, mood: herz }
+```
+- `cue` = Wort im Sprechtext, bei dem der Shot beginnt (Zeit kommt aus den echten Wort-Zeitstempeln). Eindeutig wählen – sonst greift ein früheres gleiches Wort.
+- `type` = Bild (Liste in `renderer/scenes/story.js`), `mood` = Musik (Liste in `tools/music.py`).
+
 ## Regeln für gute Shorts
 - **Länge:** 20–45 s (YouTube via Buffer max. 3 Min., TikTok min. 3 s).
 - **Hook in den ersten 1–2 Sekunden.** Kein „Hallo, heute …“.
