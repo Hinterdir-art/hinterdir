@@ -112,7 +112,7 @@ export default function createScene({ THREE, scene, camera, renderer, params, br
   // Filmkorn + Vignette + Blitz als Overlays
   const grainCanvas = document.createElement('canvas'); grainCanvas.width = 270; grainCanvas.height = 480;
   const gctx = grainCanvas.getContext('2d'); const grainTex = new THREE.CanvasTexture(grainCanvas);
-  const grain = new THREE.Mesh(new THREE.PlaneGeometry(W, H), new THREE.MeshBasicMaterial({ map: grainTex, transparent: true, opacity: 0.18 }));
+  const grain = new THREE.Mesh(new THREE.PlaneGeometry(W, H), new THREE.MeshBasicMaterial({ map: grainTex, transparent: true, opacity: 0.08 }));
   grain.position.z = 5; scene.add(grain);
   const vc = document.createElement('canvas'); vc.width = vc.height = 256; const vg = vc.getContext('2d');
   const rg = vg.createRadialGradient(128, 128, 60, 128, 128, 180); rg.addColorStop(0, 'rgba(0,0,0,0)'); rg.addColorStop(1, 'rgba(0,0,0,0.85)');
@@ -133,7 +133,7 @@ export default function createScene({ THREE, scene, camera, renderer, params, br
     shots[name].update(lt, k);
     flash.material.opacity = k > 0 ? Math.max(0, 0.8 - lt / 0.12) : 0;
     // Korn pro Frame (deterministisch)
-    const img = gctx.createImageData(270, 480); let s = Math.floor(t * 30) * 7919 + 1;
+    const img = gctx.createImageData(270, 480); let s = Math.floor(t * 8) * 7919 + 1; // Korn nur 8× pro Sekunde neu → kleinere Datei
     for (let i = 0; i < img.data.length; i += 4) { s = (s * 16807) % 2147483647; const v = s & 255; img.data[i] = img.data[i + 1] = img.data[i + 2] = v; img.data[i + 3] = 255; }
     gctx.putImageData(img, 0, 0); grainTex.needsUpdate = true;
   };
